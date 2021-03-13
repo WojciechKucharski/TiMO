@@ -7,8 +7,8 @@ class HM:
         self.HM = self.HMCreate(HMSize, varDim)
         self.eval = None
         self.fun = fun
-        self.HMCR = 0.95
-        self.PAR = 0.5
+        self.HMCR = 1
+        self.PAR = 1
         self.bw = 0.1
         self.it = 0
 
@@ -89,13 +89,17 @@ class HM:
         self.it += 1
 
     def calc(self, TolX, maxIter):
+        TolX = 10**(-TolX)
         i = 0
+        j = 0
         while True:
             i+=1
             self.iteration()
-            a = self.worst[2]
-            b = self.best[2]
-            if ((a[0]-b[0])**2 + (a[1]-b[1])**2)**(0.5) < TolX:
+            a = self.worst[0]
+            b = self.best[0]
+            if abs(a-b) < TolX:
+                j+=1
+            if j > 1:
                 print("TolX satisfied")
                 print("Harmony Search Stop: Iterations:{}".format(i))
                 print("Best solution: " + str(self.best[2]))

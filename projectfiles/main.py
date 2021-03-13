@@ -7,11 +7,11 @@ import matplotlib.pyplot as plt
 HMSize = 10
 n = 2
 #fun = "4*x1^2-2.1*x1^4+0.33*x1^6+x1*x2-4*x2^2+4*x2^4"
-fun = "x1^2+x2^2"
+fun = "x1^2+x2^2+exp(x1)"
 
 a = HM(HMSize, n, fun)
 
-a.calc(0.00001, 999999999)
+a.calc(32,  10000)
 
 DZ = 3
 
