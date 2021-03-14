@@ -24,15 +24,9 @@ def f(function, args):
         except Exception as e:
             print("Something may be wrong with x{}!".format(x + 1))
             print(e)
-
     function = mathConv(function)
+    return eval(function)
 
-    try:
-        return eval(function)
-    except Exception as e:
-        print("Something went wrong!")
-        print(e)
-        return None
 
 def mathConv(s):
     try:
