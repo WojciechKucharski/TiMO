@@ -7,6 +7,7 @@ class HM:
     def __init__(self, fun = "x1^2+x2^2"):
         self.fun = fun
         self.iter = 0
+        self.layersCreated = None
 
     def evaluate(self): #calculate function values for vectors in Harmony Memory
         try:
@@ -56,32 +57,40 @@ class HM:
 
     def HarmonySearch(
             self, TolX = 3, maxIter = 10**3, HCMR = 1, PAR = 1, BW = 0.1,
-            HMSize = 10, startRange = 10, varRange = 10):
+            HMSize = 10, startRange = 10, varRange = 10, plotHM = 0): #Harmony Search - passing param.
 
-        if self.HMCreate(HMSize, startRange) and self.evaluate():
+        if self.HMCreate(HMSize, startRange) and self.evaluate(): #create first Harmony Memory and evaluate values
             pass
         else:
-            return 0
-        self.TolXHistory = []
+            return 0 #return 0 after failure
+
+        self.TolXHistory = [] #clear history
         self.bestHistory = []
         self.iter = 0
-        while True:
-            self.iter += 1
-            self.iteration(HCMR, PAR, BW, varRange)
-            self.evaluate()
-            self.TolXHistory.append(self.TolXValue)
+
+        while True: #main Loop
+            self.iter += 1 #add 1 to iteration counter
+            self.iteration(HCMR, PAR, BW, varRange) #execute iteration method
+            self.evaluate() #evaluate values
+
+            if plotHM != 0:
+                if self.iter % plotHM == 0:
+                    self.plotLayers(startRange, HM = True)
+
+            self.TolXHistory.append(self.TolXValue) #add things to history
             self.bestHistory.append(self.best[2])
-            if self.TolXHistory[-1] < 10**(-TolX):
+
+            if self.TolXHistory[-1] < 10**(-TolX): #stop crit. - TolX
                 print("TolX satisfied")
                 print("Harmony Search Stop: Iterations:{}".format(self.iter))
                 print("Best solution: " + str(self.best[2]))
                 break
-            if self.iter >= maxIter:
+            if self.iter >= maxIter:  #stop crit. maxIter
                 print("Iteration overflow")
                 print("Harmony Search Stop: Iterations:{}".format(self.iter))
                 print("Best solution: " + str(self.best[2]))
                 break
-        return 1
+        return 1 #return 1 after success
 
     @property
     def varDim(self): #returns dimension of function imput aka Harmony Size
@@ -118,28 +127,44 @@ class HM:
         plt.xlabel("Iteration")
         plt.show()
 
-    def plotLayers(self, DZ):
-        if self.varDim != 2:
-            print("Can't draw layers")
-        else:
+    def createLayers(self, DZ):
+        if self.layersCreated != DZ:
             xlist = np.linspace(-DZ, DZ, DZ * 10)
             ylist = np.linspace(-DZ, DZ, DZ * 10)
-
             X, Y = np.meshgrid(xlist, ylist)
             Z = np.zeros((len(xlist), len(ylist)))
             for i in range(len(xlist)):
                 for j in range(len(ylist)):
                     Z[-i - 1, -j - 1] = f(self.fun, [xlist[i], ylist[j]])
 
-            fig, ax = plt.subplots(1, 1)
-            cp = ax.contourf(X, Y, Z)
+            self.layersCreated = DZ
+            self.X = X
+            self.Y = Y
+            self.Z = Z
 
-            fig.colorbar(cp)
-            ax.scatter(self.best[2][0], self.best[2][1], c="red")
-            x1 = []
-            x2 = []
-            for x in self.bestHistory:
-                x1.append(x[0])
-                x2.append(x[1])
-            ax.plot(x1,x2)
-            plt.show()
+    def plotLayers(self, DZ, his = False, HM = False, layers = 20):
+        if self.varDim != 2:
+            print("Can't draw layers")
+            return 0
+
+        self.createLayers(DZ)
+        fig, ax = plt.subplots(1, 1)
+        cp = ax.contourf(self.X, self.Y, self.Z, layers)
+        fig.colorbar(cp)
+
+        if his:
+            x = flip(self.bestHistory)
+            ax.plot(x[0], x[1])
+        if HM:
+            x = flip(self.HM)
+            ax.scatter(x[0], x[1], c="red")
+
+        plt.show()
+
+def flip(array):
+    x = []
+    y = []
+    for i in array:
+        x.append(i[0])
+        y.append(i[1])
+    return [x,y]
