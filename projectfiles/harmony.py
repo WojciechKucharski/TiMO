@@ -102,7 +102,7 @@ class HM:
 
     @property
     def TolXValue(self):
-        return abs(self.worst[0] - self.best[0])
+        return abs(self.worst[0] - self.best[0]) #dif. between best and worst
 
 
     @property
@@ -128,7 +128,7 @@ class HM:
         plt.show()
 
     def createLayers(self, DZ):
-        if self.layersCreated != DZ:
+        if self.layersCreated != DZ: #check if background XYZ is already created
             xlist = np.linspace(-DZ, DZ, DZ * 10)
             ylist = np.linspace(-DZ, DZ, DZ * 10)
             X, Y = np.meshgrid(xlist, ylist)
@@ -149,7 +149,7 @@ class HM:
 
         self.createLayers(DZ)
         fig, ax = plt.subplots(1, 1)
-        cp = ax.contourf(self.X, self.Y, self.Z, layers)
+        cp = ax.contourf(self.X, self.Y, self.Z, layers) #draw layers
         fig.colorbar(cp)
 
         if his:
