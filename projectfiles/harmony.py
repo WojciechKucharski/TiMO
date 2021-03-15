@@ -35,11 +35,11 @@ class HM:
             print(e)
             return 0 #return 0 after failure
 
-    def iteration(self, HCMR = 1, PAR = 1, BW = 0.1, varRange = 25, *args, **kwargs): #do SINGLE iteration
+    def iteration(self, HMCR = 1, PAR = 1, BW = 0.1, varRange = 25, *args, **kwargs): #do SINGLE iteration
         try:
             x = [] #initiate empty Harmony
             for i in range(self.varDim): #add N "players" to Harmony
-                if r.random() < HCMR: #decide if generate new player or reuse other player from Harmony Memory
+                if r.random() < HMCR: #decide if generate new player or reuse other player from Harmony Memory
                     x.append(r.choice(self.HM)[i]) #choose random player from Harmony Memory
                     if r.random() < PAR: #decide if "player" will adjust
                         x[-1] += (r.random() - 0.5) * 2 * BW #adjusting "player"
@@ -56,7 +56,7 @@ class HM:
             return 0 #return 0 after failure
 
     def HarmonySearch(
-            self, TolX = 3, maxIter = 10**3, HCMR = 1, PAR = 1, BW = 0.1,
+            self, TolX = 3, maxIter = 10**3, HMCR = 1, PAR = 1, BW = 0.1,
             HMSize = 10, startRange = 10, varRange = 10, plotHM = 0): #Harmony Search - passing param.
 
         if self.HMCreate(HMSize, startRange) and self.evaluate(): #create first Harmony Memory and evaluate values
@@ -70,7 +70,7 @@ class HM:
 
         while True: #main Loop
             self.iter += 1 #add 1 to iteration counter
-            self.iteration(HCMR, PAR, BW, varRange) #execute iteration method
+            self.iteration(HMCR, PAR, BW, varRange) #execute iteration method
             self.evaluate() #evaluate values
 
             if plotHM != 0:
@@ -80,16 +80,14 @@ class HM:
             self.TolXHistory.append(self.TolXValue) #add things to history
             self.bestHistory.append(self.best[2])
 
-            if self.TolXHistory[-1] < 10**(-TolX): #stop crit. - TolX
-                print("TolX satisfied")
-                print("Harmony Search Stop: Iterations:{}".format(self.iter))
-                print("Best solution: " + str(self.best[2]))
-                break
+
+            #if self.TolXHistory[-1] < 10**(-TolX): #stop crit. - TolX
+                #return "TolX satisfied" + "\nHarmony Search Stop: Iterations:{}".format(self.iter) + "\nBest solution: " + str(self.best[2]) + "\nValue: " + str(self.best[0])
+
             if self.iter >= maxIter:  #stop crit. maxIter
-                print("Iteration overflow")
-                print("Harmony Search Stop: Iterations:{}".format(self.iter))
-                print("Best solution: " + str(self.best[2]))
-                break
+                return "Iteration overflow" + "\nHarmony Search Stop: Iterations:{}".format(self.iter) + "\nBest solution: " + str(self.best[2]) + "\nValue: " + str(self.best[0])
+
+
         return 1 #return 1 after success
 
     @property
@@ -129,8 +127,8 @@ class HM:
 
     def createLayers(self, DZ):
         if self.layersCreated != DZ: #check if background XYZ is already created
-            xlist = np.linspace(-DZ, DZ, DZ * 10)
-            ylist = np.linspace(-DZ, DZ, DZ * 10)
+            xlist = np.linspace(-DZ, DZ, int(DZ * 10))
+            ylist = np.linspace(-DZ, DZ, int(DZ * 10))
             X, Y = np.meshgrid(xlist, ylist)
             Z = np.zeros((len(xlist), len(ylist)))
             for i in range(len(xlist)):
@@ -142,7 +140,7 @@ class HM:
             self.Y = Y
             self.Z = Z
 
-    def plotLayers(self, DZ, his = False, HM = False, layers = 20):
+    def plotLayers(self, DZ = 5, his = False, HM = False, layers = 20):
         if self.varDim != 2:
             print("Can't draw layers")
             return 0
@@ -157,8 +155,9 @@ class HM:
             ax.plot(x[0], x[1])
         if HM:
             x = flip(self.HM)
-            ax.scatter(x[0], x[1], c="red")
+            ax.scatter(x[0], x[1], c = "red")
 
+        ax.scatter(self.best[2][0], self.best[2][1], c = "red")
         plt.show()
 
 def flip(array):
