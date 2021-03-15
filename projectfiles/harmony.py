@@ -42,7 +42,7 @@ class HM:
                 if r.random() < HCMR: #decide if generate new player or reuse other player from Harmony Memory
                     x.append(r.choice(self.HM)[i]) #choose random player from Harmony Memory
                     if r.random() < PAR: #decide if "player" will adjust
-                        x[-1] += r.random() * BW #adjusting "player"
+                        x[-1] += (r.random() - 0.5) * 2 * BW #adjusting "player"
                 else:
                     x.append((r.random() * 2 - 1) * varRange) #generate brand new "player"
             if f(self.fun, x) < self.worst[0]: #check if new Harmony is better than any Harmony in H. M.
