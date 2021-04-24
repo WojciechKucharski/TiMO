@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from harmony import HM
+from function1 import f
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -148,7 +149,7 @@ class Ui_MainWindow(object):
 
 
 def clicked():
-    a = HM("x2^2+x1^2")
+    a = HM(cube = [1,2], fun = "x1+x2")
     x = a.HarmonySearch(maxIter = 162,
                         HMSize = 10,
                             HMCR = 1,

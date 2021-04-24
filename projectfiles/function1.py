@@ -17,13 +17,7 @@ def evaluation(function: str, args: Tuple[float]) -> float:
 
 def mathConv(s: str) -> str:
     s = s.replace("^", "**")
-    s = s.replace("log", "math.log")
-    s = s.replace("log2", "math.log2")
-    s = s.replace("log10", "math.log10")
-    s = s.replace("sin", "math.sin")
-    s = s.replace("cos", "math.cos")
-    s = s.replace("tan", "math.tan")
-    s = s.replace("exp", "math.exp")
-    s = s.replace("sqrt", "math.sqrt")
-    s = s.replace("pi", "math.pi")
+    S = ["log", "log2", "log10", "sin", "cos", "tan", "exp", "sqrt", "pi"]
+    for x in S:
+        s = s.replace(x, "math." + x)
     return s
