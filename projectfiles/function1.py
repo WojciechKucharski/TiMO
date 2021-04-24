@@ -1,50 +1,29 @@
 import math
+from functools import lru_cache
+from typing import List, Tuple
 
-def f(function, args):
 
-    if type(function) != type("string"):
-        print("Function is not a string!")
-        return None
+def f(function: str, args: List[float]) -> float:
+    return evaluation(function, tuple(args))
 
-    if len(args) < 1:
-        print("Not enough arguments!")
-        return None
 
-    for x in args:
-        try:
-            x = float(x)
-        except Exception as e:
-            print("Something is wrong with arguments!")
-            print(e)
-            return None
-
+@lru_cache(maxsize=20)
+def evaluation(function: str, args: Tuple[float]) -> float:
     for x in range(len(args)):
-        try:
-            function = function.replace("x{}".format(x + 1), "args[{}]".format(x))
-        except Exception as e:
-            print("Something may be wrong with x{}!".format(x + 1))
-            print(e)
+        function = function.replace(f"x{x + 1}", f"args[{x}]")
     function = mathConv(function)
     return eval(function)
 
 
-def mathConv(s):
-    try:
-        s = s.replace("^", "**")
-    except Exception as e:
-        print("Failed to add powers!")
-        print(e)
-    try:
-        s = s.replace("log", "math.log")
-        s = s.replace("log2", "math.log2")
-        s = s.replace("log10", "math.log10")
-        s = s.replace("sin", "math.sin")
-        s = s.replace("cos", "math.cos")
-        s = s.replace("tan", "math.tan")
-        s = s.replace("exp", "math.exp")
-        s = s.replace("sqrt", "math.sqrt")
-        s = s.replace("pi", "math.pi")
-    except Exception as e:
-        print("Failed to add math functions!")
-        print(e)
+def mathConv(s: str) -> str:
+    s = s.replace("^", "**")
+    s = s.replace("log", "math.log")
+    s = s.replace("log2", "math.log2")
+    s = s.replace("log10", "math.log10")
+    s = s.replace("sin", "math.sin")
+    s = s.replace("cos", "math.cos")
+    s = s.replace("tan", "math.tan")
+    s = s.replace("exp", "math.exp")
+    s = s.replace("sqrt", "math.sqrt")
+    s = s.replace("pi", "math.pi")
     return s

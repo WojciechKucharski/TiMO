@@ -57,7 +57,7 @@ class Ui_MainWindow(object):
         self.bar_HMSize = QtWidgets.QSpinBox(self.centralwidget)
         self.bar_HMSize.setGeometry(QtCore.QRect(230, 90, 101, 22))
         self.bar_HMSize.setMaximum(999)
-        self.bar_HMSize.setValue(20)
+        self.bar_HMSize.setValue(10)
         self.bar_HMSize.setObjectName("bar_HMSize")
 
 
@@ -122,11 +122,12 @@ class Ui_MainWindow(object):
                             HMSize = self.bar_HMSize.value(),
                             HMCR = self.bar_HMCR.value(),
                             PAR = self.bar_PAR.value(),
-                            startRange = self.bar_Radius.value(), varRange = self.bar_Radius.value(), TolX = -1
+                            startRange = self.bar_Radius.value(), varRange = self.bar_Radius.value(), plotHM = 0
                             )
         self.text_out.setPlainText(x)
-        a.plotLayers(DZ = self.bar_Radius.value())
-        #a.plotHistory()
+
+        a.plotHistory()
+        a.plotLayers(DZ = self.bar_Radius.value(), his = True)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -143,7 +144,20 @@ class Ui_MainWindow(object):
         self.text_in.setPlainText(_translate("MainWindow", "x1^2+x2^2"))
         self.text_out.setPlainText(_translate("MainWindow", "Wynik"""))
 
+
+
+
+def clicked():
+    a = HM("x2^2+x1^2")
+    x = a.HarmonySearch(maxIter = 162,
+                        HMSize = 10,
+                            HMCR = 1,
+                            PAR = 1,
+                            startRange = 5, varRange = 5, plotHM = 0
+                        )
+    print(x)
 if __name__ == "__main__":
+    clicked()
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
