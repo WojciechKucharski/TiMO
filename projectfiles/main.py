@@ -149,16 +149,12 @@ class Ui_MainWindow(object):
 
 
 def clicked():
-    a = HM(cube = [1,2], fun = "x1+x2")
-    x = a.HarmonySearch(maxIter = 162,
-                        HMSize = 10,
-                            HMCR = 1,
-                            PAR = 1,
-                            startRange = 5, varRange = 5, plotHM = 0
-                        )
+    a = HM()
+    x = a.HarmonySearch()
     print(x)
+clicked()
+"""
 if __name__ == "__main__":
-    clicked()
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
@@ -166,3 +162,4 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
+"""
