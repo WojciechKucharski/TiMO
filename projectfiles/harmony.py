@@ -12,31 +12,29 @@ class HM:
     def HarmonySearch(
             self, cube: List[List[float]] = [[-5, 5], [-5, 5]],
             fun: str = "x1^2+x2^2",
-            maxIter: int = 10 ** 5,
+            maxIter: int = 10 ** 3,
             HMCR: float = 1.0,
             PAR: float = 1.0,
             BW: float = 0.1,
-            HMSize: int = 10):  # Harmony Search - passing param.
+            HMSize: int = 10,
+            draw: bool = True):  # Harmony Search - passing param.
+
         self.maxIter = maxIter
         self.HMCR = HMCR
         self.PAR = PAR
         self.BW = BW
-
         self.HMSize = HMSize
-
-
-
-        self.valHistory = []  # clear history
-        self.bestHistory = []
+        self.valHistory = []
+        self.bestHistoryx1 = []
+        self.bestHistoryx2 = []
         self.iter = 0
-
         self.fun = fun
+        self.cube = cube
+
         self.varDim = 0
         for i in range(1, 6):  # evaluating function dimension
             if f"x{i}" in self.fun:
                 self.varDim = i
-        self.cube = cube
-        self.HM, self.HMValues = [], []
 
         # sanity check
         if self.varDim < 2:  # checking function dimensions
@@ -50,27 +48,35 @@ class HM:
             if len(self.cube[i]) < 2:
                 raise Exception(f"Cube's argument no# {i} is incomplete")
 
+
         self.HM = self.HMCreate()
         while True:  # main Loop
-            self.add(self.iteration())
-            self.valHistory.append(0)  # value
-            self.bestHistory.append([0, 0])  # coordinates
+            best, worst = self.best_worst
+            self.valHistory.append(self.HM[best][-1])  # value
+            if self.varDim == 2:
+                self.bestHistoryx1.append(self.HM[best][0])
+                self.bestHistoryx2.append(self.HM[best][1])
             if self.iter >= self.maxIter:
                 break
+            new = self.iteration()
+            if new[-1] < self.HM[worst][-1]:
+                self.HM[worst] = new
 
-        return f"Iteration overflow \nHarmony Search Stop: Iterations:{self.iter} \nBest solution: {self.HM[self.bestID][:-1]} \nValue: {self.HM[self.bestID][-1]}"
+        if draw:
+            self.plotHistory()
+            if self.varDim == 2:
+                self.plotLayers()
+        return f"Iteration overflow \nHarmony Search Stop: Iterations:{self.iter} \nBest solution: {self.HM[best][:-1]} \nValue: {self.HM[best][-1]}"
 
     @property
-    def bestID(self):
-        tmp = 0
+    def best_worst(self):
+        min, max = 0, 0
         for i in range(len(self.HM)):
-            if self.HM[tmp][-1] > self.HM[i][-1]:
-                tmp = i
-        return tmp
-    def add(self, new):
-        tmp = self.bestID
-        if self.HM[tmp][-1] > new[-1]:
-            self.HM[tmp] = new
+            if self.HM[max][-1] < self.HM[i][-1]:
+                max = i
+            if self.HM[min][-1] > self.HM[i][-1]:
+                min = i
+        return min, max
 
     def iteration(self):  # do SINGLE iteration
         x = []  # initiate empty Harmony
@@ -113,3 +119,28 @@ class HM:
         plt.xlabel("Iteration")
         plt.show()
 
+    def plotLayers(self, his: bool = True, HM: bool = False, layers: int = 50):
+        if self.varDim != 2:
+            print("Can't draw layers")
+            return 0
+        xlist = np.linspace(self.cube[0][0], self.cube[0][1], int(abs(self.cube[0][0]-self.cube[0][1]) * 10))
+        ylist = np.linspace(self.cube[1][0], self.cube[1][1], int(abs(self.cube[1][0]-self.cube[1][1]) * 10))
+        X, Y = np.meshgrid(xlist, ylist)
+        Z = np.zeros((len(xlist), len(ylist)))
+        for i in range(len(xlist)):
+            for j in range(len(ylist)):
+                Z[-i - 1, -j - 1] = f(self.fun, [xlist[i], ylist[j]])
+
+        fig, ax = plt.subplots(1, 1)
+        cp = ax.contourf(X, Y, Z, layers)  # draw layers
+        fig.colorbar(cp)
+        ax.scatter(self.bestHistoryx1[-1], self.bestHistoryx2[-1], c="red")
+
+        if his:
+            ax.plot(self.bestHistoryx1, self.bestHistoryx2)
+        if HM:
+            ax.scatter(self.bestHistoryx1, self.bestHistoryx2, c="red")
+
+        plt.ylabel("x2")
+        plt.xlabel("x1")
+        plt.show()
