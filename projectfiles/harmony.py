@@ -13,60 +13,79 @@ class HM:
             self, cube: List[List[float]] = [[-5, 5], [-5, 5]],
             fun: str = "x1^2+x2^2",
             maxIter: int = 10 ** 3,
-            HMCR: float = 1.0,
-            PAR: float = 1.0,
+            HMCR: float = 0.9,
+            PAR: float = 0.9,
             BW: float = 0.1,
             HMSize: int = 10,
             draw: bool = True):  # Harmony Search - passing param.
 
-        self.maxIter = maxIter
-        self.HMCR = HMCR
-        self.PAR = PAR
+        ########################################### User Given Variables
+        self.maxIter = inRange(1, maxIter, 10 ** 6)
+        self.HMCR = inRange(0.0, HMCR, 1.0)
+        self.PAR = inRange(0.0, PAR, 1.0)
         self.BW = BW
-        self.HMSize = HMSize
+        self.HMSize = inRange(1, HMSize, 10 ** 3)
+        self.fun = fun
+        self.cube = cube
+        self.draw = draw
+        ########################################### Alg. Start Values
         self.valHistory = []
         self.bestHistoryx1 = []
         self.bestHistoryx2 = []
         self.iter = 0
-        self.fun = fun
-        self.cube = cube
-
+        ########################################### evaluating function dimension
         self.varDim = 0
-        for i in range(1, 6):  # evaluating function dimension
-            if f"x{i}" in self.fun:
-                self.varDim = i
+        try:
+            for i in range(1, 6):
+                if f"x{i}" in self.fun:
+                    self.varDim = i
+        except Exception as e:
+            return f"Failed to evaluate function dimension\n{e}"
 
-        # sanity check
+        ########################################### sanity check
         if self.varDim < 2:  # checking function dimensions
-            raise Exception("Function dimension too small")
+            return "Function dimension too small"
         if self.varDim == 0:
-            raise Exception("Function is invalid")
+            return "Function is invalid"
 
         if len(self.cube) < self.varDim:  # checking cube sizes
-            raise Exception("Cube is to small, function has more arguments")
+            return "Cube is to small, function has more arguments"
         for i in range(len(self.cube)):
             if len(self.cube[i]) < 2:
-                raise Exception(f"Cube's argument no# {i} is incomplete")
+                return f"Cube's argument no# {i} is incomplete"
 
+        ########################################### Harmony Search
+        try:
+            self.HM = self.HMCreate() # initiate Harmony Memory
+        except Exception as e:
+            return f"Failerd to create Harmony Memory\n{e}"
 
-        self.HM = self.HMCreate()
         while True:  # main Loop
-            best, worst = self.best_worst
+            try:
+                best, worst = self.best_worst
+            except Exception as e:
+                return f"Failed to evaluate worst and best Harmony in iteration no# {self.iter}\n{e}"
             self.valHistory.append(self.HM[best][-1])  # value
             if self.varDim == 2:
                 self.bestHistoryx1.append(self.HM[best][0])
                 self.bestHistoryx2.append(self.HM[best][1])
             if self.iter >= self.maxIter:
                 break
-            new = self.iteration()
+            try:
+                new = self.iteration()
+            except Exception as e:
+                return f"Failed to execute iteration no# {self.iter}\n{e}"
             if new[-1] < self.HM[worst][-1]:
                 self.HM[worst] = new
-
-        if draw:
-            self.plotHistory()
-            if self.varDim == 2:
-                self.plotLayers()
-        return f"Iteration overflow \nHarmony Search Stop: Iterations:{self.iter} \nBest solution: {self.HM[best][:-1]} \nValue: {self.HM[best][-1]}"
+        response = f"Iteration overflow \nHarmony Search Stop: Iterations:{self.iter} \nBest solution: {self.HM[best][:-1]} \nValue: {self.HM[best][-1]}"
+        try:
+            if self.draw:
+                self.plotHistory()
+                if self.varDim == 2:
+                    self.plotLayers()
+        except Exception as e:
+            response += f"\nFailed to plot\n{e}"
+        return response
 
     @property
     def best_worst(self):
@@ -144,3 +163,6 @@ class HM:
         plt.ylabel("x2")
         plt.xlabel("x1")
         plt.show()
+
+def inRange(a, b, c):
+    return min(c,max(a, b))

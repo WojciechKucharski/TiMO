@@ -5,7 +5,7 @@ from function1 import f
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(540, 519)
+        MainWindow.resize(540, 600)
 
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -101,7 +101,7 @@ class Ui_MainWindow(object):
 
 
         self.text_out = QtWidgets.QPlainTextEdit(self.centralwidget)
-        self.text_out.setGeometry(QtCore.QRect(80, 190, 391, 291))
+        self.text_out.setGeometry(QtCore.QRect(80, 290, 390, 290))
         self.text_out.setObjectName("text_out")
 
 
@@ -118,21 +118,15 @@ class Ui_MainWindow(object):
 
 
     def clicked(self):
-        a = HM(self.text_in.toPlainText())
-        x = a.HarmonySearch(maxIter = self.bar_maxIter.value()-1,
-                            HMSize = self.bar_HMSize.value(),
-                            HMCR = self.bar_HMCR.value(),
-                            PAR = self.bar_PAR.value(),
-                            startRange = self.bar_Radius.value(), varRange = self.bar_Radius.value(), plotHM = 0
-                            )
+        a = HM()
+        x = a.HarmonySearch(fun=self.text_in.toPlainText())
         self.text_out.setPlainText(x)
 
-        a.plotHistory()
-        a.plotLayers(DZ = self.bar_Radius.value(), his = True)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "TiMO - Harmony Search"))
+
         self.label_HMCR.setText(_translate("MainWindow", "HMCR"))
         self.label_PAR.setText(_translate("MainWindow", "PAR"))
         self.label_bw.setText(_translate("MainWindow", "bw"))
@@ -143,17 +137,8 @@ class Ui_MainWindow(object):
         self.pushButton.setText(_translate("MainWindow", "Uruchom Algorytm"))
         self.pushButton.setShortcut(_translate("MainWindow", "Return"))
         self.text_in.setPlainText(_translate("MainWindow", "x1^2+x2^2"))
-        self.text_out.setPlainText(_translate("MainWindow", "Wynik"""))
+        self.text_out.setPlainText(_translate("MainWindow", "Wynik"))
 
-
-
-
-def clicked():
-    a = HM()
-    x = a.HarmonySearch()
-    print(x)
-clicked()
-"""
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
@@ -162,4 +147,4 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-"""
+
