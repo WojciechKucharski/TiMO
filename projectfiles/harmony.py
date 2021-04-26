@@ -1,8 +1,9 @@
 import random as r
-from parser import f
+from my_parser import f
 import matplotlib.pyplot as plt
 import numpy as np
 from typing import List, Tuple
+from contour_plot import draw_contour
 
 
 class HM:
@@ -10,8 +11,8 @@ class HM:
         pass
 
     def HarmonySearch(
-            self, cube: List[List[float]] = [[-5, 5], [-5, 5]],
-            fun: str = "x1^2+x2^2",
+            self, cube: List[List[float]] = [[-3, 3], [-3, 3]],
+            fun: str = "2*x1^2-1.05*x1^4+x1^6/6+x1*x2+x2^2",
             maxIter: int = 10 ** 3,
             HMCR: float = 0.9,
             PAR: float = 0.9,
@@ -29,6 +30,7 @@ class HM:
         self.cube = cube
         self.draw = draw
         ########################################### Alg. Start Values
+        self.HMHistory = []
         self.valHistory = []
         self.bestHistoryx1 = []
         self.bestHistoryx2 = []
@@ -56,11 +58,12 @@ class HM:
 
         ########################################### Harmony Search
         try:
-            self.HM = self.HMCreate() # initiate Harmony Memory
+            self.HM = self.HMCreate()  # initiate Harmony Memory
         except Exception as e:
             return f"Failerd to create Harmony Memory\n{e}"
 
         while True:  # main Loop
+            self.HMHistory.append(self.HM.copy())
             try:
                 best, worst = self.best_worst
             except Exception as e:
@@ -77,7 +80,7 @@ class HM:
                 return f"Failed to execute iteration no# {self.iter}\n{e}"
             if new[-1] < self.HM[worst][-1]:
                 self.HM[worst] = new
-        response = f"Iteration overflow \nHarmony Search Stop: Iterations:{self.iter} \nBest solution: {self.HM[best][:-1]} \nValue: {self.HM[best][-1]}"
+        response = f"Harmony Search Stop: Iterations:{self.iter} \nBest solution: {self.HM[best][:-1]} \nValue: {self.HM[best][-1]}"
         try:
             if self.draw:
                 self.plotHistory()
@@ -85,6 +88,11 @@ class HM:
                     self.plotLayers()
         except Exception as e:
             response += f"\nFailed to plot\n{e}"
+        print(response)
+
+        for i in range(len(self.valHistory)):
+            response += "\n############################################"
+            response += f"\nIteration {i}:\nBest point: [{self.bestHistoryx1[i]},{self.bestHistoryx2[i]}] \nf. value: {self.valHistory[i]}"
         return response
 
     @property
@@ -131,38 +139,18 @@ class HM:
 
         return HM  # save Harmony Memory
 
-
     def plotHistory(self):  # draw a plot, where OX is iteration and OY is TolX value
         plt.plot(self.valHistory)
         plt.ylabel("fval")
         plt.xlabel("Iteration")
         plt.show()
 
-    def plotLayers(self, his: bool = True, HM: bool = False, layers: int = 50):
-        if self.varDim != 2:
-            print("Can't draw layers")
-            return 0
-        xlist = np.linspace(self.cube[0][0], self.cube[0][1], int(abs(self.cube[0][0]-self.cube[0][1]) * 10))
-        ylist = np.linspace(self.cube[1][0], self.cube[1][1], int(abs(self.cube[1][0]-self.cube[1][1]) * 10))
-        X, Y = np.meshgrid(xlist, ylist)
-        Z = np.zeros((len(xlist), len(ylist)))
-        for i in range(len(xlist)):
-            for j in range(len(ylist)):
-                Z[-i - 1, -j - 1] = f(self.fun, [xlist[i], ylist[j]])
-
-        fig, ax = plt.subplots(1, 1)
-        cp = ax.contourf(X, Y, Z, layers)  # draw layers
-        fig.colorbar(cp)
-        ax.scatter(self.bestHistoryx1[-1], self.bestHistoryx2[-1], c="red")
-
-        if his:
-            ax.plot(self.bestHistoryx1, self.bestHistoryx2)
-        if HM:
-            ax.scatter(self.bestHistoryx1, self.bestHistoryx2, c="red")
-
-        plt.ylabel("x2")
-        plt.xlabel("x1")
-        plt.show()
+    def plotLayers(self):
+        draw_contour(cube=self.cube,
+                     varDim=self.varDim,
+                     fun=self.fun,
+                     layers=50,
+                     self=self, HM=True, his=True)
 
 def inRange(a, b, c):
-    return min(c,max(a, b))
+    return min(c, max(a, b))
