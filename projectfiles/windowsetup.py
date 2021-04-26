@@ -14,8 +14,7 @@ def wrapper_retranslateUi(self, MainWindow):
     self.pushButton.setText(_translate("MainWindow", "Uruchom Algorytm"))
     self.pushButton.setShortcut(_translate("MainWindow", "Return"))
     self.text_in.setPlainText(_translate("MainWindow", "x1^2+x2^2"))
-    self.text_out.setPlainText(_translate("MainWindow", "Wynik\n"
-                                                        ""))
+    self.text_out.setPlainText(_translate("MainWindow", "Wynik"))
     self.checkBox.setText(_translate("MainWindow", "Wykresy"))
     self.label_Radius_2.setText(_translate("MainWindow", "<=x2<="))
     self.label_Radius_3.setText(_translate("MainWindow", "<=x3<="))

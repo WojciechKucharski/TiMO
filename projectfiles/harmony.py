@@ -1,5 +1,5 @@
 import random as r
-from function1 import f
+from parser import f
 import matplotlib.pyplot as plt
 import numpy as np
 from typing import List, Tuple
