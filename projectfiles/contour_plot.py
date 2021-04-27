@@ -43,9 +43,6 @@ def draw_contour(self, HM:bool, his:bool, cube: List[List[float]], fun: str, var
         x1, x2 = vec(self.HMHistory[x])
         H.set_ydata(x2)
         H.set_xdata(x1)
-        #fig.canvas.draw_idle()
-
-
     sfreq.on_changed(update)
 
     plt.show()

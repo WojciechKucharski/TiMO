@@ -1,7 +1,6 @@
 import random as r
 from my_parser import f
 import matplotlib.pyplot as plt
-import numpy as np
 from typing import List, Tuple
 from contour_plot import draw_contour
 

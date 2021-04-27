@@ -8,14 +8,22 @@ def f(function: str, args: List[float]) -> float:
 
 @lru_cache(maxsize=20)
 def evaluation(function: str, args: Tuple[float]) -> float:
-    for x in range(len(args)):
-        function = function.replace(f"x{x + 1}", f"args[{x}]")
-    function = mathConv(function)
+    function = mathConv(function, len(args))
     return eval(function)
 
-def mathConv(s: str) -> str:
-    s = s.replace("^", "**")
+@lru_cache(maxsize=5)
+def mathConv(function: str, dimension: int) -> str:
+    for i in range(10):
+        function = function.replace(f"{i}x", f"{i}*x")
+    for i in range(dimension):
+        function = function.replace(f"x{i}(", f"x{i}*(")
+    for x in range(dimension):
+        function = function.replace(f"x{x + 1}", f"args[{x}]")
+    function = function.replace("^", "**")
     S = ["log", "log2", "log10", "sin", "cos", "tan", "exp", "sqrt", "pi"]
     for x in S:
-        s = s.replace(x, "math." + x)
-    return s
+        function = function.replace(x, "math." + x)
+    function = function.replace(")(", ")*(")
+    for i in range(10):
+        function = function.replace(f"{i}x", f"{i}*x")
+    return function
