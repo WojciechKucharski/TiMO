@@ -23,11 +23,8 @@ class HM:
         self.maxIter = inRange(1, maxIter, 10 ** 6)
         self.HMCR = inRange(0.0, HMCR, 1.0)
         self.PAR = inRange(0.0, PAR, 1.0)
-        self.BW = BW
         self.HMSize = inRange(1, HMSize, 10 ** 3)
-        self.fun = fun
-        self.cube = cube
-        self.draw = draw
+        self.BW, self.fun, self.cube, self.draw = BW, fun, cube, draw
         ########################################### Alg. Start Values
         self.HMHistory = []
         self.valHistory = []
@@ -35,6 +32,7 @@ class HM:
         self.bestHistoryx2 = []
         self.iter = 0
         ########################################### evaluating function dimension
+
         self.varDim = 0
         try:
             for i in range(1, 6):
@@ -42,7 +40,6 @@ class HM:
                     self.varDim = i
         except Exception as e:
             return f"Failed to evaluate function dimension\n{e}"
-
         ########################################### sanity check
         if self.varDim < 2:  # checking function dimensions
             return "Function dimension too small"
