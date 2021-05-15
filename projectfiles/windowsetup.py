@@ -1,103 +1,54 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-
-def wrapper_retranslateUi(self, MainWindow):
-    _translate = QtCore.QCoreApplication.translate
-    MainWindow.setWindowTitle(_translate("MainWindow", "TiMO - Harmony Search"))
-    self.label_HMCR.setText(_translate("MainWindow", "HMCR"))
-    self.label_PAR.setText(_translate("MainWindow", "PAR"))
-    self.label_bw.setText(_translate("MainWindow", "bw"))
-    self.label_fun.setText(_translate("MainWindow", "Funkcja"))
-    self.label_HMSize.setText(_translate("MainWindow", "HMSize"))
-    self.label_Radius.setText(_translate("MainWindow", "<=x1<="))
-    self.label_maxIter.setText(_translate("MainWindow", "maxIter"))
-    self.pushButton.setText(_translate("MainWindow", "Uruchom Algorytm"))
-    self.pushButton2.setText(_translate("MainWindow", "Pokaż wykresy"))
-    self.pushButton.setShortcut(_translate("MainWindow", "Return"))
-    self.text_in.setPlainText(_translate("MainWindow", "x1^2+x2^2"))
-    self.text_out.setPlainText(_translate("MainWindow", "Wynik"))
-    self.checkBox.setText(_translate("MainWindow", "Wykresy"))
-    self.label_Radius_2.setText(_translate("MainWindow", "<=x2<="))
-    self.label_Radius_3.setText(_translate("MainWindow", "<=x3<="))
-    self.label_Radius_4.setText(_translate("MainWindow", "<=x4<="))
-    self.label_Radius_5.setText(_translate("MainWindow", "<=x5<="))
-    self.menuFunkcje.setTitle(_translate("MainWindow", "Funkcje"))
-
-    for i, x in enumerate(self.functions_obj):
-        x.setText(_translate("MainWindow", self.functions_list[i]))
-
-    """self.actionPrzyklad1.setText(_translate("MainWindow", "Six-Hump Camel function"))
-    self.actionPrzyklad2.setText(_translate("MainWindow", "Himmelblau's function"))
-    self.actionPrzyklad3.setText(_translate("MainWindow", "Goldstein-Price function"))
-    self.actionPrzyklad4.setText(_translate("MainWindow", "Ackley function"))
-    self.actionPrzyklad5.setText(_translate("MainWindow", "Cross-in-tray function"))"""
-
 def wrapper_setupUi(self, MainWindow):
-
+    ########################################### Main Window
     MainWindow.setObjectName("MainWindow")
     MainWindow.resize(520, 520)
     self.centralwidget = QtWidgets.QWidget(MainWindow)
     self.centralwidget.setObjectName("centralwidget")
+    _translate = QtCore.QCoreApplication.translate
+    MainWindow.setWindowTitle(_translate("MainWindow", "TiMO - Harmony Search"))
 
-    self.bar_HMCR = QtWidgets.QDoubleSpinBox(self.centralwidget)
-    self.bar_HMCR.setGeometry(QtCore.QRect(90, 60, 62, 22))
-    self.bar_HMCR.setMaximum(1.0)
-    self.bar_HMCR.setSingleStep(0.05)
-    self.bar_HMCR.setProperty("value", 0.95)
-    self.bar_HMCR.setObjectName("bar_HMCR")
+    ########################################### Float Parameters
+    for i in range(3):
+        self.parameters_obj.append(QtWidgets.QDoubleSpinBox(self.centralwidget))
+        self.parameters_obj[-1].setGeometry(QtCore.QRect(90, 60 + i * 30, 62, 22))
+        self.parameters_obj[-1].setMaximum(1.0)
+        self.parameters_obj[-1].setSingleStep(0.05)
+        self.parameters_obj[-1].setProperty("value", 0.95)
 
-    self.bar_PAR = QtWidgets.QDoubleSpinBox(self.centralwidget)
-    self.bar_PAR.setGeometry(QtCore.QRect(90, 90, 62, 22))
-    self.bar_PAR.setMaximum(1.0)
-    self.bar_PAR.setSingleStep(0.05)
-    self.bar_PAR.setProperty("value", 0.95)
-    self.bar_PAR.setObjectName("bar_PAR")
+    ########################################### Int Parameters
+    for i in range(2):
+        st_value = [10, 250]
+        self.parameters_obj.append(QtWidgets.QSpinBox(self.centralwidget))
+        self.parameters_obj[-1].setGeometry(QtCore.QRect(90, 150 + i * 30, 61, 22))
+        self.parameters_obj[-1].setMaximum(999999999)
+        self.parameters_obj[-1].setProperty("value", st_value[i])
 
-    self.bar_bw = QtWidgets.QDoubleSpinBox(self.centralwidget)
-    self.bar_bw.setGeometry(QtCore.QRect(90, 120, 62, 22))
-    self.bar_bw.setMaximum(999.0)
-    self.bar_bw.setSingleStep(0.05)
-    self.bar_bw.setProperty("value", 0.5)
-    self.bar_bw.setObjectName("bar_bw")
+    ########################################### Parameters Labels
+    for i in range(5):
+        self.parameters_labels.append(QtWidgets.QLabel(self.centralwidget))
+        self.parameters_labels[-1].setGeometry(QtCore.QRect(30, 60 + i * 30, 47, 16))
 
-    self.label_HMCR = QtWidgets.QLabel(self.centralwidget)
-    self.label_HMCR.setGeometry(QtCore.QRect(30, 60, 47, 16))
-    self.label_HMCR.setObjectName("label_HMCR")
+    ########################################### Cube Input
+    for i in range(5):
+        ########################################### Cube Labels
+        self.cube_obj[1].append(QtWidgets.QLabel(self.centralwidget))
+        self.cube_obj[1][-1].setGeometry(QtCore.QRect(240, 60 + i * 30, 47, 13))
+        ########################################### Cube Input
+        for j in [0, 2]:
+            self.cube_obj[j].append(QtWidgets.QDoubleSpinBox(self.centralwidget))
+            self.cube_obj[j][-1].setGeometry(QtCore.QRect(180 + j * 55, 60 + i * 30, 51, 22))
+            self.cube_obj[j][-1].setMinimum(-999999.0)
+            self.cube_obj[j][-1].setMaximum(999999.0)
+            self.cube_obj[j][-1].setSingleStep(0.5)
+            self.cube_obj[j][-1].setProperty("value", 5.0 * (j - 1))
 
-    self.label_PAR = QtWidgets.QLabel(self.centralwidget)
-    self.label_PAR.setGeometry(QtCore.QRect(30, 90, 47, 13))
-    self.label_PAR.setObjectName("label_PAR")
-
-    self.label_bw = QtWidgets.QLabel(self.centralwidget)
-    self.label_bw.setGeometry(QtCore.QRect(30, 120, 47, 13))
-    self.label_bw.setObjectName("label_bw")
 
     self.label_fun = QtWidgets.QLabel(self.centralwidget)
     self.label_fun.setGeometry(QtCore.QRect(30, 20, 47, 13))
     self.label_fun.setObjectName("label_fun")
 
-    self.bar_HMSize = QtWidgets.QSpinBox(self.centralwidget)
-    self.bar_HMSize.setGeometry(QtCore.QRect(90, 150, 61, 22))
-    self.bar_HMSize.setMaximum(999)
-    self.bar_HMSize.setProperty("value", 10)
-    self.bar_HMSize.setObjectName("bar_HMSize")
-
-    self.label_HMSize = QtWidgets.QLabel(self.centralwidget)
-    self.label_HMSize.setGeometry(QtCore.QRect(30, 150, 47, 13))
-    self.label_HMSize.setObjectName("label_HMSize")
-
-    self.label_Radius = QtWidgets.QLabel(self.centralwidget)
-    self.label_Radius.setGeometry(QtCore.QRect(240, 60, 47, 13))
-    self.label_Radius.setObjectName("label_Radius")
-
-    self.label_maxIter = QtWidgets.QLabel(self.centralwidget)
-    self.label_maxIter.setGeometry(QtCore.QRect(30, 180, 47, 13))
-    self.label_maxIter.setObjectName("label_maxIter")
-    self.bar_maxIter = QtWidgets.QSpinBox(self.centralwidget)
-    self.bar_maxIter.setGeometry(QtCore.QRect(90, 180, 61, 22))
-    self.bar_maxIter.setMaximum(999999999)
-    self.bar_maxIter.setProperty("value", 250)
-    self.bar_maxIter.setObjectName("bar_maxIter")
 
     self.pushButton = QtWidgets.QPushButton(self.centralwidget)
     self.pushButton.setGeometry(QtCore.QRect(360, 60, 111, 23))
@@ -107,134 +58,55 @@ def wrapper_setupUi(self, MainWindow):
     self.pushButton2.setGeometry(QtCore.QRect(360, 120, 111, 23))
     self.pushButton2.setObjectName("pushButton2")
 
-    self.x1u_1 = QtWidgets.QDoubleSpinBox(self.centralwidget)
-    self.x1u_1.setGeometry(QtCore.QRect(290, 60, 51, 22))
-    self.x1u_1.setMinimum(-999999.0)
-    self.x1u_1.setMaximum(999999.0)
-    self.x1u_1.setSingleStep(0.5)
-    self.x1u_1.setProperty("value", 5.0)
-    self.x1u_1.setObjectName("x1u")
     self.text_in = QtWidgets.QPlainTextEdit(self.centralwidget)
     self.text_in.setGeometry(QtCore.QRect(90, 10, 381, 31))
     self.text_in.setObjectName("text_in")
+
     self.text_out = QtWidgets.QPlainTextEdit(self.centralwidget)
     self.text_out.setGeometry(QtCore.QRect(90, 220, 381, 241))
     self.text_out.setObjectName("text_out")
+
     self.checkBox = QtWidgets.QCheckBox(self.centralwidget)
     self.checkBox.setGeometry(QtCore.QRect(360, 90, 70, 17))
     self.checkBox.setObjectName("checkBox")
     self.checkBox.setChecked(True)
-    self.x1l_1 = QtWidgets.QDoubleSpinBox(self.centralwidget)
-    self.x1l_1.setGeometry(QtCore.QRect(180, 60, 51, 22))
-    self.x1l_1.setMinimum(-999999.0)
-    self.x1l_1.setMaximum(999999.0)
-    self.x1l_1.setSingleStep(0.5)
-    self.x1l_1.setProperty("value", -5.0)
-    self.x1l_1.setObjectName("x1l")
-    self.x1u_2 = QtWidgets.QDoubleSpinBox(self.centralwidget)
-    self.x1u_2.setGeometry(QtCore.QRect(290, 90, 51, 22))
-    self.x1u_2.setMinimum(-999999.0)
-    self.x1u_2.setMaximum(999999.0)
-    self.x1u_2.setSingleStep(0.5)
-    self.x1u_2.setProperty("value", 5.0)
-    self.x1u_2.setObjectName("x1u_2")
-    self.x1l_2 = QtWidgets.QDoubleSpinBox(self.centralwidget)
-    self.x1l_2.setGeometry(QtCore.QRect(180, 90, 51, 22))
-    self.x1l_2.setMinimum(-999999.0)
-    self.x1l_2.setMaximum(999999.0)
-    self.x1l_2.setSingleStep(0.5)
-    self.x1l_2.setProperty("value", -5.0)
-    self.x1l_2.setObjectName("x1l_2")
-    self.label_Radius_2 = QtWidgets.QLabel(self.centralwidget)
-    self.label_Radius_2.setGeometry(QtCore.QRect(240, 90, 47, 13))
-    self.label_Radius_2.setObjectName("label_Radius_2")
-    self.x1u_3 = QtWidgets.QDoubleSpinBox(self.centralwidget)
-    self.x1u_3.setGeometry(QtCore.QRect(290, 120, 51, 22))
-    self.x1u_3.setMinimum(-999999.0)
-    self.x1u_3.setMaximum(999999.0)
-    self.x1u_3.setSingleStep(0.5)
-    self.x1u_3.setProperty("value", 5.0)
-    self.x1u_3.setObjectName("x1u_3")
-    self.x1l_3 = QtWidgets.QDoubleSpinBox(self.centralwidget)
-    self.x1l_3.setGeometry(QtCore.QRect(180, 120, 51, 22))
-    self.x1l_3.setMinimum(-999999.0)
-    self.x1l_3.setMaximum(999999.0)
-    self.x1l_3.setSingleStep(0.5)
-    self.x1l_3.setProperty("value", -5.0)
-    self.x1l_3.setObjectName("x1l_3")
-    self.label_Radius_3 = QtWidgets.QLabel(self.centralwidget)
-    self.label_Radius_3.setGeometry(QtCore.QRect(240, 120, 47, 13))
-    self.label_Radius_3.setObjectName("label_Radius_3")
-    self.x1u_4 = QtWidgets.QDoubleSpinBox(self.centralwidget)
-    self.x1u_4.setGeometry(QtCore.QRect(290, 150, 51, 22))
-    self.x1u_4.setMinimum(-999999.0)
-    self.x1u_4.setMaximum(999999.0)
-    self.x1u_4.setSingleStep(0.5)
-    self.x1u_4.setProperty("value", 5.0)
-    self.x1u_4.setObjectName("x1u_4")
-    self.x1l_4 = QtWidgets.QDoubleSpinBox(self.centralwidget)
-    self.x1l_4.setGeometry(QtCore.QRect(180, 150, 51, 22))
-    self.x1l_4.setMinimum(-999999.0)
-    self.x1l_4.setMaximum(999999.0)
-    self.x1l_4.setSingleStep(0.5)
-    self.x1l_4.setProperty("value", -5.0)
-    self.x1l_4.setObjectName("x1l_4")
-    self.label_Radius_4 = QtWidgets.QLabel(self.centralwidget)
-    self.label_Radius_4.setGeometry(QtCore.QRect(240, 150, 47, 13))
-    self.label_Radius_4.setObjectName("label_Radius_4")
-    self.x1u_5 = QtWidgets.QDoubleSpinBox(self.centralwidget)
-    self.x1u_5.setGeometry(QtCore.QRect(290, 180, 51, 22))
-    self.x1u_5.setMinimum(-999999.0)
-    self.x1u_5.setMaximum(999999.0)
-    self.x1u_5.setSingleStep(0.5)
-    self.x1u_5.setProperty("value", 5.0)
-    self.x1u_5.setObjectName("x1u_5")
-    self.x1l_5 = QtWidgets.QDoubleSpinBox(self.centralwidget)
-    self.x1l_5.setGeometry(QtCore.QRect(180, 180, 51, 22))
-    self.x1l_5.setMinimum(-999999.0)
-    self.x1l_5.setMaximum(999999.0)
-    self.x1l_5.setSingleStep(0.5)
-    self.x1l_5.setProperty("value", -5.0)
-    self.x1l_5.setObjectName("x1l_5")
-    self.label_Radius_5 = QtWidgets.QLabel(self.centralwidget)
-    self.label_Radius_5.setGeometry(QtCore.QRect(240, 180, 47, 13))
-    self.label_Radius_5.setObjectName("label_Radius_5")
+
     MainWindow.setCentralWidget(self.centralwidget)
     self.statusbar = QtWidgets.QStatusBar(MainWindow)
     self.statusbar.setObjectName("statusbar")
+
     MainWindow.setStatusBar(self.statusbar)
     self.menuBar = QtWidgets.QMenuBar(MainWindow)
     self.menuBar.setGeometry(QtCore.QRect(0, 0, 517, 21))
     self.menuBar.setObjectName("menuBar")
+
     self.menuFunkcje = QtWidgets.QMenu(self.menuBar)
     self.menuFunkcje.setObjectName("menuFunkcje")
     MainWindow.setMenuBar(self.menuBar)
-
 
     for i in range(len(self.functions_list)):
         self.functions_obj.append(QtWidgets.QAction(MainWindow))
         self.functions_obj[-1].setObjectName(f"actionPrzyklad{i+1}")
         self.menuFunkcje.addAction(self.functions_obj[-1])
 
-    """self.actionPrzyklad2 = QtWidgets.QAction(MainWindow)
-    self.actionPrzyklad2.setObjectName("actionPrzyklad2")
-    self.menuFunkcje.addAction(self.actionPrzyklad2)
-
-    self.actionPrzyklad3 = QtWidgets.QAction(MainWindow)
-    self.actionPrzyklad3.setObjectName("actionPrzyklad3")
-    self.menuFunkcje.addAction(self.actionPrzyklad3)
-
-    self.actionPrzyklad4 = QtWidgets.QAction(MainWindow)
-    self.actionPrzyklad4.setObjectName("actionPrzyklad4")
-    self.menuFunkcje.addAction(self.actionPrzyklad4)
-
-    self.actionPrzyklad5 = QtWidgets.QAction(MainWindow)
-    self.actionPrzyklad5.setObjectName("actionPrzyklad5")
-    self.menuFunkcje.addAction(self.actionPrzyklad5)"""
-
-
     self.menuBar.addAction(self.menuFunkcje.menuAction())
 
-    self.retranslateUi(MainWindow)
+    for i, x in enumerate(["HCMR", "PAR", "bw", "HMSize", "maxIter"]):
+        self.parameters_labels[i].setText(_translate("MainWindow", x))
+
+    for i in range(5):
+        self.cube_obj[1][i].setText(_translate("MainWindow", f"<=x{i + 1}<="))
+
+    for i, x in enumerate(self.functions_obj):
+        x.setText(_translate("MainWindow", self.functions_list[i]))
+
+    self.menuFunkcje.setTitle(_translate("MainWindow", "Funkcje"))
+    self.text_out.setPlainText(_translate("MainWindow", "Wynik"))
+    self.checkBox.setText(_translate("MainWindow", "Wykresy"))
+    self.label_fun.setText(_translate("MainWindow", "Funkcja"))
+    self.pushButton.setText(_translate("MainWindow", "Uruchom Algorytm"))
+    self.pushButton2.setText(_translate("MainWindow", "Pokaż wykresy"))
+    self.text_in.setPlainText(_translate("MainWindow", "x1^2+x2^2"))
+
     QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
