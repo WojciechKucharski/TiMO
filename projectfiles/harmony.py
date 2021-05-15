@@ -9,7 +9,7 @@ class HM:
         self.clear = True
 
     def HarmonySearch(
-            self, cube: List[Tuple[float]] = ((-3, 3), (-3, 3)),
+            self, cube: List[Tuple[float]] = ((-3, 3), (-3, 3), (-3, 3), (-3, 3), (-3, 3)),
             fun: str = "2*x1^2-1.05*x1^4+x1^6/6+x1*x2+x2^2",
             maxIter: int = 10 ** 3,
             HMCR: float = 0.9,
@@ -27,6 +27,7 @@ class HM:
         ########################################### Alg. Start Values
         self.HMHistory, self.valHistory = [], []
         self.bestHistoryx = [[], []]
+        self.bestHistoryX = []
         self.iter = 0
         ########################################### evaluating function dimension
         self.varDim = 0
@@ -64,6 +65,7 @@ class HM:
             if self.varDim == 2:
                 self.bestHistoryx[0].append(self.HM[best][0])
                 self.bestHistoryx[1].append(self.HM[best][1])
+            self.bestHistoryX.append(self.HM[best])
             if self.iter >= self.maxIter:
                 break
             try:
@@ -88,7 +90,8 @@ class HM:
         """
         for i in range(len(self.valHistory)):
             response += "\n############################################"
-            response += f"\nIteration {i}:\nBest point: [{self.bestHistoryx[0][i]},{self.bestHistoryx[1][i]}] \nf. value: {self.valHistory[i]}"
+            response += f"\nIteration {i}:\nBest point: {self.bestHistoryX[i][:-1]} \nf. value: {self.bestHistoryX[best][-1]}"
+
         self.clear = False
         return response
 

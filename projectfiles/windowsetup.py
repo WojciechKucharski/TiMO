@@ -1,19 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-def wrapper_setupUi(self, MainWindow):
-    ########################################### Empty Lists for Future PyQt5 Objects
-    self.functions_obj = []
-    self.parameters_obj = []
-    self.parameters_labels = []
-    self.cube_obj = [[], [], []]
-    ########################################### Example Functions
-    self.functions = {"Simple function": "x1^2+x2^2"}
-    try:
-        data = [str(x).replace("\n", "") for x in open("functions.txt", "r")]
-        for i in range(len(data) // 2):
-            self.functions[data[i * 2]] = data[i * 2 + 1]
-    except Exception as e:
-        print(e)
+def setupGUI_(self, MainWindow):
     ########################################### Main Window
     MainWindow.setObjectName("MainWindow")
     MainWindow.resize(520, 520)
@@ -59,54 +46,53 @@ def wrapper_setupUi(self, MainWindow):
             self.cube_obj[j][-1].setSingleStep(0.5)
             self.cube_obj[j][-1].setProperty("value", 5.0 * (j - 1))
 
-    self.label_fun = QtWidgets.QLabel(self.centralwidget)
-    self.label_fun.setGeometry(QtCore.QRect(30, 20, 47, 13))
-    self.label_fun.setObjectName("label_fun")
-    self.label_fun.setText(_translate("MainWindow", "Funkcja"))
-
-    self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-    self.pushButton.setGeometry(QtCore.QRect(360, 60, 111, 23))
-    self.pushButton.setObjectName("pushButton")
-    self.pushButton.setText(_translate("MainWindow", "Uruchom Algorytm"))
-
-    self.pushButton2 = QtWidgets.QPushButton(self.centralwidget)
-    self.pushButton2.setGeometry(QtCore.QRect(360, 120, 111, 23))
-    self.pushButton2.setObjectName("pushButton2")
-    self.pushButton2.setText(_translate("MainWindow", "Pokaż wykresy"))
-
-    self.text_in = QtWidgets.QPlainTextEdit(self.centralwidget)
-    self.text_in.setGeometry(QtCore.QRect(90, 10, 381, 31))
-    self.text_in.setObjectName("text_in")
-    self.text_in.setPlainText(_translate("MainWindow", "x1^2+x2^2"))
-
-    self.text_out = QtWidgets.QPlainTextEdit(self.centralwidget)
-    self.text_out.setGeometry(QtCore.QRect(90, 220, 381, 241))
-    self.text_out.setObjectName("text_out")
-    self.text_out.setPlainText(_translate("MainWindow", "Wynik"))
-
+    ########################################### Check Box
     self.checkBox = QtWidgets.QCheckBox(self.centralwidget)
-    self.checkBox.setGeometry(QtCore.QRect(360, 90, 70, 17))
-    self.checkBox.setObjectName("checkBox")
+    self.checkBox.setGeometry(QtCore.QRect(360, 120, 70, 17))
     self.checkBox.setChecked(True)
     self.checkBox.setText(_translate("MainWindow", "Wykresy"))
 
+    ########################################### Push Buttons
+    for i, x in enumerate(["Uruchom Algorytm", "Pokaż wykresy"]):
+        self.push_obj.append(QtWidgets.QPushButton(self.centralwidget))
+        self.push_obj[-1].setGeometry(QtCore.QRect(360, 60 + i * 30, 111, 23))
+        self.push_obj[-1].setText(_translate("MainWindow", x))
+
+    ########################################### Function Input
+    self.text_in = QtWidgets.QPlainTextEdit(self.centralwidget)
+    self.text_in.setGeometry(QtCore.QRect(90, 10, 381, 31))
+    self.text_in.setPlainText(_translate("MainWindow", "x1^2+x2^2"))
+
+    ########################################### Alg. Output
+    self.text_out = QtWidgets.QPlainTextEdit(self.centralwidget)
+    self.text_out.setGeometry(QtCore.QRect(90, 220, 381, 241))
+    self.text_out.setPlainText(_translate("MainWindow", "Wynik"))
+
+    ########################################### Function Input Label
+    self.label_fun = QtWidgets.QLabel(self.centralwidget)
+    self.label_fun.setGeometry(QtCore.QRect(30, 20, 47, 13))
+    self.label_fun.setText(_translate("MainWindow", "Funkcja"))
+
+    ########################################### MENU
+
     MainWindow.setCentralWidget(self.centralwidget)
     self.statusbar = QtWidgets.QStatusBar(MainWindow)
-    self.statusbar.setObjectName("statusbar")
 
     MainWindow.setStatusBar(self.statusbar)
     self.menuBar = QtWidgets.QMenuBar(MainWindow)
     self.menuBar.setGeometry(QtCore.QRect(0, 0, 517, 21))
-    self.menuBar.setObjectName("menuBar")
+
     self.menuFunkcje = QtWidgets.QMenu(self.menuBar)
     self.menuBar.addAction(self.menuFunkcje.menuAction())
-    self.menuFunkcje.setObjectName("menuFunkcje")
+
     self.menuFunkcje.setTitle(_translate("MainWindow", "Funkcje"))
     MainWindow.setMenuBar(self.menuBar)
 
+    ########################################### Menu Options
+
     for i, x in enumerate([x for x in self.functions.keys()]):
         self.functions_obj.append(QtWidgets.QAction(MainWindow))
-        self.functions_obj[-1].setObjectName(f"actionPrzyklad{i+1}")
+        self.functions_obj[-1].setObjectName(f"actionPrzyklad{i + 1}")
         self.functions_obj[-1].setText(_translate("MainWindow", x))
         self.menuFunkcje.addAction(self.functions_obj[-1])
 

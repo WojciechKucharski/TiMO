@@ -8,3 +8,5 @@ Ackley function
 -20*exp(-0.2*sqrt(0.5*(x1^2+x2^2))-exp(0.5*(cos(2*pi*x1)+cos(2*pi*x2))+exp(1)+20
 Cross-in-tray function
 -0.0001*(abs(sin(x1)*sin(x2)*exp(abs(100-1/pi*sqrt(x1^2+x2^2))))+1)^0.1
+XDDD
+XDDDDDDDDDDDDDDDD
