@@ -26,15 +26,17 @@ def wrapper_setupUi(self, MainWindow):
         self.parameters_obj[-1].setProperty("value", st_value[i])
 
     ########################################### Parameters Labels
-    for i in range(5):
+    for i, x in enumerate(["HCMR", "PAR", "bw", "HMSize", "maxIter"]):
         self.parameters_labels.append(QtWidgets.QLabel(self.centralwidget))
         self.parameters_labels[-1].setGeometry(QtCore.QRect(30, 60 + i * 30, 47, 16))
+        self.parameters_labels[-1].setText(_translate("MainWindow", x))
 
     ########################################### Cube Input
     for i in range(5):
         ########################################### Cube Labels
         self.cube_obj[1].append(QtWidgets.QLabel(self.centralwidget))
         self.cube_obj[1][-1].setGeometry(QtCore.QRect(240, 60 + i * 30, 47, 13))
+        self.cube_obj[1][-1].setText(_translate("MainWindow", f"<=x{i + 1}<="))
         ########################################### Cube Input
         for j in [0, 2]:
             self.cube_obj[j].append(QtWidgets.QDoubleSpinBox(self.centralwidget))
@@ -44,32 +46,36 @@ def wrapper_setupUi(self, MainWindow):
             self.cube_obj[j][-1].setSingleStep(0.5)
             self.cube_obj[j][-1].setProperty("value", 5.0 * (j - 1))
 
-
     self.label_fun = QtWidgets.QLabel(self.centralwidget)
     self.label_fun.setGeometry(QtCore.QRect(30, 20, 47, 13))
     self.label_fun.setObjectName("label_fun")
-
+    self.label_fun.setText(_translate("MainWindow", "Funkcja"))
 
     self.pushButton = QtWidgets.QPushButton(self.centralwidget)
     self.pushButton.setGeometry(QtCore.QRect(360, 60, 111, 23))
     self.pushButton.setObjectName("pushButton")
+    self.pushButton.setText(_translate("MainWindow", "Uruchom Algorytm"))
 
     self.pushButton2 = QtWidgets.QPushButton(self.centralwidget)
     self.pushButton2.setGeometry(QtCore.QRect(360, 120, 111, 23))
     self.pushButton2.setObjectName("pushButton2")
+    self.pushButton2.setText(_translate("MainWindow", "Pokaż wykresy"))
 
     self.text_in = QtWidgets.QPlainTextEdit(self.centralwidget)
     self.text_in.setGeometry(QtCore.QRect(90, 10, 381, 31))
     self.text_in.setObjectName("text_in")
+    self.text_in.setPlainText(_translate("MainWindow", "x1^2+x2^2"))
 
     self.text_out = QtWidgets.QPlainTextEdit(self.centralwidget)
     self.text_out.setGeometry(QtCore.QRect(90, 220, 381, 241))
     self.text_out.setObjectName("text_out")
+    self.text_out.setPlainText(_translate("MainWindow", "Wynik"))
 
     self.checkBox = QtWidgets.QCheckBox(self.centralwidget)
     self.checkBox.setGeometry(QtCore.QRect(360, 90, 70, 17))
     self.checkBox.setObjectName("checkBox")
     self.checkBox.setChecked(True)
+    self.checkBox.setText(_translate("MainWindow", "Wykresy"))
 
     MainWindow.setCentralWidget(self.centralwidget)
     self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -79,34 +85,17 @@ def wrapper_setupUi(self, MainWindow):
     self.menuBar = QtWidgets.QMenuBar(MainWindow)
     self.menuBar.setGeometry(QtCore.QRect(0, 0, 517, 21))
     self.menuBar.setObjectName("menuBar")
-
     self.menuFunkcje = QtWidgets.QMenu(self.menuBar)
+    self.menuBar.addAction(self.menuFunkcje.menuAction())
     self.menuFunkcje.setObjectName("menuFunkcje")
+    self.menuFunkcje.setTitle(_translate("MainWindow", "Funkcje"))
     MainWindow.setMenuBar(self.menuBar)
 
     for i in range(len(self.functions_list)):
         self.functions_obj.append(QtWidgets.QAction(MainWindow))
         self.functions_obj[-1].setObjectName(f"actionPrzyklad{i+1}")
+        self.functions_obj[-1].setText(_translate("MainWindow", self.functions_list[i]))
         self.menuFunkcje.addAction(self.functions_obj[-1])
-
-    self.menuBar.addAction(self.menuFunkcje.menuAction())
-
-    for i, x in enumerate(["HCMR", "PAR", "bw", "HMSize", "maxIter"]):
-        self.parameters_labels[i].setText(_translate("MainWindow", x))
-
-    for i in range(5):
-        self.cube_obj[1][i].setText(_translate("MainWindow", f"<=x{i + 1}<="))
-
-    for i, x in enumerate(self.functions_obj):
-        x.setText(_translate("MainWindow", self.functions_list[i]))
-
-    self.menuFunkcje.setTitle(_translate("MainWindow", "Funkcje"))
-    self.text_out.setPlainText(_translate("MainWindow", "Wynik"))
-    self.checkBox.setText(_translate("MainWindow", "Wykresy"))
-    self.label_fun.setText(_translate("MainWindow", "Funkcja"))
-    self.pushButton.setText(_translate("MainWindow", "Uruchom Algorytm"))
-    self.pushButton2.setText(_translate("MainWindow", "Pokaż wykresy"))
-    self.text_in.setPlainText(_translate("MainWindow", "x1^2+x2^2"))
 
     QtCore.QMetaObject.connectSlotsByName(MainWindow)
 

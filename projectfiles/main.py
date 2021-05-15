@@ -18,15 +18,11 @@ class Ui_MainWindow(object):
                 self.functions[data[i * 2]] = data[i * 2 + 1]
         except Exception as e:
             print(e)
-
         wrapper_setupUi(self, MainWindow)
 
     @property
     def functions_list(self):
         return [x for x in self.functions.keys()]
-
-    def retranslateUi(self, MainWindow):
-        wrapper_retranslateUi(self, MainWindow)
 
     def hookfunctions(self):
         self.pushButton.clicked.connect(self.clicked)
