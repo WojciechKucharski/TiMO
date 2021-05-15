@@ -1,6 +1,19 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 def wrapper_setupUi(self, MainWindow):
+    ########################################### Empty Lists for Future PyQt5 Objects
+    self.functions_obj = []
+    self.parameters_obj = []
+    self.parameters_labels = []
+    self.cube_obj = [[], [], []]
+    ########################################### Example Functions
+    self.functions = {"Simple function": "x1^2+x2^2"}
+    try:
+        data = [str(x).replace("\n", "") for x in open("functions.txt", "r")]
+        for i in range(len(data) // 2):
+            self.functions[data[i * 2]] = data[i * 2 + 1]
+    except Exception as e:
+        print(e)
     ########################################### Main Window
     MainWindow.setObjectName("MainWindow")
     MainWindow.resize(520, 520)
@@ -91,11 +104,11 @@ def wrapper_setupUi(self, MainWindow):
     self.menuFunkcje.setTitle(_translate("MainWindow", "Funkcje"))
     MainWindow.setMenuBar(self.menuBar)
 
-    for i in range(len(self.functions_list)):
+    for i, x in enumerate([x for x in self.functions.keys()]):
         self.functions_obj.append(QtWidgets.QAction(MainWindow))
         self.functions_obj[-1].setObjectName(f"actionPrzyklad{i+1}")
-        self.functions_obj[-1].setText(_translate("MainWindow", self.functions_list[i]))
+        self.functions_obj[-1].setText(_translate("MainWindow", x))
         self.menuFunkcje.addAction(self.functions_obj[-1])
 
     QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
+    self.hookfunctions()
