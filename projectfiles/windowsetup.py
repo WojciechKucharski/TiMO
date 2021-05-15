@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-def setupGUI_(self, MainWindow):
+def setupGUI(self, MainWindow):
+
     ########################################### Main Window
     MainWindow.setObjectName("MainWindow")
     MainWindow.resize(520, 520)
@@ -46,17 +47,17 @@ def setupGUI_(self, MainWindow):
             self.cube_obj[j][-1].setSingleStep(0.5)
             self.cube_obj[j][-1].setProperty("value", 5.0 * (j - 1))
 
-    ########################################### Check Box
-    self.checkBox = QtWidgets.QCheckBox(self.centralwidget)
-    self.checkBox.setGeometry(QtCore.QRect(360, 120, 70, 17))
-    self.checkBox.setChecked(True)
-    self.checkBox.setText(_translate("MainWindow", "Wykresy"))
-
     ########################################### Push Buttons
     for i, x in enumerate(["Uruchom Algorytm", "Pokaż wykresy"]):
         self.push_obj.append(QtWidgets.QPushButton(self.centralwidget))
         self.push_obj[-1].setGeometry(QtCore.QRect(360, 60 + i * 30, 111, 23))
         self.push_obj[-1].setText(_translate("MainWindow", x))
+
+    ########################################### Check Box
+    self.checkBox = QtWidgets.QCheckBox(self.centralwidget)
+    self.checkBox.setGeometry(QtCore.QRect(360, 60 + len(self.push_obj) * 30, 70, 17))
+    self.checkBox.setChecked(True)
+    self.checkBox.setText(_translate("MainWindow", "Wykresy"))
 
     ########################################### Function Input
     self.text_in = QtWidgets.QPlainTextEdit(self.centralwidget)
@@ -74,7 +75,6 @@ def setupGUI_(self, MainWindow):
     self.label_fun.setText(_translate("MainWindow", "Funkcja"))
 
     ########################################### MENU
-
     MainWindow.setCentralWidget(self.centralwidget)
     self.statusbar = QtWidgets.QStatusBar(MainWindow)
 
@@ -89,12 +89,14 @@ def setupGUI_(self, MainWindow):
     MainWindow.setMenuBar(self.menuBar)
 
     ########################################### Menu Options
-
     for i, x in enumerate([x for x in self.functions.keys()]):
         self.functions_obj.append(QtWidgets.QAction(MainWindow))
         self.functions_obj[-1].setObjectName(f"actionPrzyklad{i + 1}")
         self.functions_obj[-1].setText(_translate("MainWindow", x))
         self.menuFunkcje.addAction(self.functions_obj[-1])
 
+    ########################################### PyQt5 stuff
     QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    ########################################### Hooking Functions to Buttons
     self.hookfunctions()
