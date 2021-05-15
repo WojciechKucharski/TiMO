@@ -38,12 +38,9 @@ def draw_contour(self, layers: int = 200):
         x1, x2 = vec(self.HMHistory[x])
         H.set_ydata(x2)
         H.set_xdata(x1)
-        print(val)
 
     sfreq.on_changed(update)
-
     plt.show()
-
 
 def vec(HMHis):
     x1 = []
