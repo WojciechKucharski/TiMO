@@ -3,10 +3,46 @@ Six-Hump Camel function
 Himmelblau's function
 (x1^2+x2-11)^2+(x1+x2^2-7)^2
 Goldstein-Price function
-TODO
+1 + (x1 + x2 + 1)^2*19 - 14*x1 + 3*x1^2 - 14*x2 + 6*x1*x2 + 3*x2^2*30 + (2*x1 - 3*x2)^2*18 - 32*x1 + 12*x1^2 + 48*x2 - 36*x1*x2 + 27*x2^2
 Ackley function
 -20*exp(-0.2*sqrt(0.5*(x1^2+x2^2))-exp(0.5*(cos(2*pi*x1)+cos(2*pi*x2))+exp(1)+20
 Cross-in-tray function
 -0.0001*(abs(sin(x1)*sin(x2)*exp(abs(100-1/pi*sqrt(x1^2+x2^2))))+1)^0.1
-XDDD
-XDDDDDDDDDDDDDDDD
+Bukin Function N.6
+100*sqrt(abs(x2-0.01x1^2))+0.01abs(x1+10)
+Cross-In-Tray Function
+-0.0001*(abs(sin(x1)*sin(x2)*exp(abs(100-sqrt(x1^2+x2^2)/pi)))+1)^(0.1)
+Drop-Wave Function
+-1 + cos(12*sqrt(x1^2+x2^2))/0.5*(x1^2+x2^2) + 2
+Eggholder Function
+-(x2+47) * sin(sqrt(abs(x2+x1/2+47))) + -x1 * sin(sqrt(abs(x1-(x2+47))))
+Gramacy And Lee Function
+sin(10*pi*x) / (2*x) + (x-1)^4
+Holder Table Function
+-abs(sin(x1)*cos(x2)*exp(abs(1 - sqrt(x1^2+x2^2)/pi)))
+Levy Function N.13
+(sin(3*pi*x1))^2 + (x1-1)^2 * (1+(sin(3*pi*x2))^2) + (x2-1)^2 * (1+(sin(2*pi*x2))^2)
+Schaffer Function N.2
+0.5 + (sin(x1^2-x2^2))^2 - 0.5/(1 + 0.001*(x1^2+x2^2))^2
+Schaffer Function N.4
+0.5 + (cos(sin(abs(x1^2-x2^2))))^2 - 0.5/(1 + 0.001*(x1^2+x2^2))^2
+Bohachevsky Functions N.1
+x1^2 + 2*x2^2 + -0.3 * cos(3*pi*x1) + -0.4 * cos(4*pi*x2) + 0.7
+Booth Function
+(x1 + 2*x2 - 7)^2 + (2*x1 + x2 - 5)^2
+Matyas Function
+0.26 * (x1^2 + x2^2) + -0.48*x1*x2
+McCormick Function
+sin(x1 + x2) + (x1 - x2)^2 + -1.5*x1 + 2.5*x2 + 1
+Three-Hump Camel Function
+2*x1^2 + -1.05*x1^4 + x1^6 / 6 + x1*x2 + x2^2
+Six-Hump Camel Function
+(4-2.1*x1^2+(x1^4)/3) * x1^2 + x1*x2 + (-4+4*x2^2) * x2^2
+Easom Function
+-cos(x1)*cos(x2)*exp(-(x1-pi)^2-(x2-pi)^2)
+Beale Function
+(1.5 - x1 + x1*x2)^2 + (2.25 - x1 + x1*x2^2)^2 + (2.625 - x1 + x1*x2^3)^2
+Colville Function
+100 * (x1^2-x2)^2 + (x1-1)^2 + (x3-1)^2 + 90 * (x3^2-x4)^2 + 10.1 * ((x2-1)^2 + (x4-1)^2) + 19.8*(x2-1)*(x4-1)
+Forrester et al. (2008) Function
+(6*x - 2)^2 * sin(12*x - 4)
