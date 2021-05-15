@@ -12,6 +12,7 @@ def wrapper_retranslateUi(self, MainWindow):
     self.label_Radius.setText(_translate("MainWindow", "<=x1<="))
     self.label_maxIter.setText(_translate("MainWindow", "maxIter"))
     self.pushButton.setText(_translate("MainWindow", "Uruchom Algorytm"))
+    self.pushButton2.setText(_translate("MainWindow", "Pokaż wykresy"))
     self.pushButton.setShortcut(_translate("MainWindow", "Return"))
     self.text_in.setPlainText(_translate("MainWindow", "x1^2+x2^2"))
     self.text_out.setPlainText(_translate("MainWindow", "Wynik"))
@@ -21,11 +22,15 @@ def wrapper_retranslateUi(self, MainWindow):
     self.label_Radius_4.setText(_translate("MainWindow", "<=x4<="))
     self.label_Radius_5.setText(_translate("MainWindow", "<=x5<="))
     self.menuFunkcje.setTitle(_translate("MainWindow", "Funkcje"))
-    self.actionPrzyklad1.setText(_translate("MainWindow", "Six-Hump Camel function"))
+
+    for i, x in enumerate(self.functions_obj):
+        x.setText(_translate("MainWindow", self.functions_list[i]))
+
+    """self.actionPrzyklad1.setText(_translate("MainWindow", "Six-Hump Camel function"))
     self.actionPrzyklad2.setText(_translate("MainWindow", "Himmelblau's function"))
     self.actionPrzyklad3.setText(_translate("MainWindow", "Goldstein-Price function"))
     self.actionPrzyklad4.setText(_translate("MainWindow", "Ackley function"))
-    self.actionPrzyklad5.setText(_translate("MainWindow", "Cross-in-tray function"))
+    self.actionPrzyklad5.setText(_translate("MainWindow", "Cross-in-tray function"))"""
 
 def wrapper_setupUi(self, MainWindow):
 
@@ -93,9 +98,15 @@ def wrapper_setupUi(self, MainWindow):
     self.bar_maxIter.setMaximum(999999999)
     self.bar_maxIter.setProperty("value", 250)
     self.bar_maxIter.setObjectName("bar_maxIter")
+
     self.pushButton = QtWidgets.QPushButton(self.centralwidget)
     self.pushButton.setGeometry(QtCore.QRect(360, 60, 111, 23))
     self.pushButton.setObjectName("pushButton")
+
+    self.pushButton2 = QtWidgets.QPushButton(self.centralwidget)
+    self.pushButton2.setGeometry(QtCore.QRect(360, 120, 111, 23))
+    self.pushButton2.setObjectName("pushButton2")
+
     self.x1u_1 = QtWidgets.QDoubleSpinBox(self.centralwidget)
     self.x1u_1.setGeometry(QtCore.QRect(290, 60, 51, 22))
     self.x1u_1.setMinimum(-999999.0)
@@ -199,11 +210,13 @@ def wrapper_setupUi(self, MainWindow):
     self.menuFunkcje.setObjectName("menuFunkcje")
     MainWindow.setMenuBar(self.menuBar)
 
-    self.actionPrzyklad1 = QtWidgets.QAction(MainWindow)
-    self.actionPrzyklad1.setObjectName("actionPrzyklad1")
-    self.menuFunkcje.addAction(self.actionPrzyklad1)
 
-    self.actionPrzyklad2 = QtWidgets.QAction(MainWindow)
+    for i in range(len(self.functions_list)):
+        self.functions_obj.append(QtWidgets.QAction(MainWindow))
+        self.functions_obj[-1].setObjectName(f"actionPrzyklad{i+1}")
+        self.menuFunkcje.addAction(self.functions_obj[-1])
+
+    """self.actionPrzyklad2 = QtWidgets.QAction(MainWindow)
     self.actionPrzyklad2.setObjectName("actionPrzyklad2")
     self.menuFunkcje.addAction(self.actionPrzyklad2)
 
@@ -217,7 +230,7 @@ def wrapper_setupUi(self, MainWindow):
 
     self.actionPrzyklad5 = QtWidgets.QAction(MainWindow)
     self.actionPrzyklad5.setObjectName("actionPrzyklad5")
-    self.menuFunkcje.addAction(self.actionPrzyklad5)
+    self.menuFunkcje.addAction(self.actionPrzyklad5)"""
 
 
     self.menuBar.addAction(self.menuFunkcje.menuAction())

@@ -1,32 +1,44 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from harmony import HM
 from windowsetup import *
+from functools import partial
 
 class Ui_MainWindow(object):
 
     def setupUi(self, MainWindow):
+        self.HM = HM()
+        self.functions = {"Simple function": "x1^2+x2^2"}
+        self.functions_obj = []
+        try:
+            data = [str(x).replace("\n", "") for x in open("functions.txt", "r")]
+            for i in range(len(data) // 2):
+                self.functions[data[i * 2]] = data[i * 2 + 1]
+        except Exception as e:
+            print(e)
+
         wrapper_setupUi(self, MainWindow)
+
+    @property
+    def functions_list(self):
+        return [x for x in self.functions.keys()]
+
     def retranslateUi(self, MainWindow):
         wrapper_retranslateUi(self, MainWindow)
 
     def hookfunctions(self):
         self.pushButton.clicked.connect(self.clicked)
-        self.actionPrzyklad1.triggered.connect(self.camel)
-        self.actionPrzyklad2.triggered.connect(self.himmel)
-        self.actionPrzyklad3.triggered.connect(self.goldstein)
-        self.actionPrzyklad4.triggered.connect(self.ackley)
-        self.actionPrzyklad5.triggered.connect(self.cross)
+        self.pushButton2.clicked.connect(self.draw_plots)
+        for i, x in enumerate(self.functions_obj):
+            x.triggered.connect(partial(self.example, self.functions_list[i]))
 
-    def camel(self):
-        self.text_in.setPlainText("2*x1^2-1.05*x1^4+x1^6/6+x1*x2+x2^2")
-    def goldstein(self):
-        self.text_in.setPlainText("x1^2+x2^2")
-    def himmel(self):
-        self.text_in.setPlainText("(x1^2+x2-11)^2+(x1+x2^2-7)^2")
-    def ackley(self):
-        self.text_in.setPlainText("-20*exp(-0.2*sqrt(0.5*(x1^2+x2^2))-exp(0.5*(cos(2*pi*x1)+cos(2*pi*x2))+exp(1)+20")
-    def cross(self):
-        self.text_in.setPlainText("-0.0001*(abs(sin(x1)*sin(x2)*exp(abs(100-1/pi*sqrt(x1^2+x2^2))))+1)^0.1")
+        """self.actionPrzyklad1.triggered.connect(partial(self.example, "camel"))
+        self.actionPrzyklad2.triggered.connect(partial(self.example, "himmel"))
+        self.actionPrzyklad3.triggered.connect(partial(self.example, "goldstein"))
+        self.actionPrzyklad4.triggered.connect(partial(self.example, "ackley"))
+        self.actionPrzyklad5.triggered.connect(partial(self.example, "cross"))"""
+
+    def example(self, no):
+        self.text_in.setPlainText(self.functions[no])
 
     def getValues(self):
         args = []
@@ -46,11 +58,18 @@ class Ui_MainWindow(object):
         args.append(cube)
         return args
 
+    def draw_plots(self):
+        if self.HM.clear:
+            return 0
+        else:
+            self.HM.plotHistory()
+            self.HM.plotLayers()
+
+
     def clicked(self):
-        a = HM()
         args = self.getValues()
 
-        x = a.HarmonySearch(fun=args[0],
+        x = self.HM.HarmonySearch(fun=args[0],
                             HMCR = args[1],
                             PAR = args[2],
                             HMSize = args[3],

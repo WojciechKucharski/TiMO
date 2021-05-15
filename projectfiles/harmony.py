@@ -4,13 +4,12 @@ import matplotlib.pyplot as plt
 from typing import List, Tuple
 from contour_plot import draw_contour
 
-
 class HM:
     def __init__(self):
-        pass
+        self.clear = True
 
     def HarmonySearch(
-            self, cube: List[List[float]] = [[-3, 3], [-3, 3]],
+            self, cube: List[Tuple[float]] = ((-3, 3), (-3, 3)),
             fun: str = "2*x1^2-1.05*x1^4+x1^6/6+x1*x2+x2^2",
             maxIter: int = 10 ** 3,
             HMCR: float = 0.9,
@@ -26,13 +25,10 @@ class HM:
         self.HMSize = inRange(1, HMSize, 10 ** 3)
         self.BW, self.fun, self.cube, self.draw = BW, fun, cube, draw
         ########################################### Alg. Start Values
-        self.HMHistory = []
-        self.valHistory = []
-        self.bestHistoryx1 = []
-        self.bestHistoryx2 = []
+        self.HMHistory, self.valHistory = [], []
+        self.bestHistoryx = [[], []]
         self.iter = 0
         ########################################### evaluating function dimension
-
         self.varDim = 0
         try:
             for i in range(1, 6):
@@ -40,7 +36,7 @@ class HM:
                     self.varDim = i
         except Exception as e:
             return f"Failed to evaluate function dimension\n{e}"
-        ########################################### sanity check
+        ########################################### Sanity Check
         if self.varDim < 2:  # checking function dimensions
             return "Function dimension too small"
         if self.varDim == 0:
@@ -56,9 +52,9 @@ class HM:
         try:
             self.HM = self.HMCreate()  # initiate Harmony Memory
         except Exception as e:
-            return f"Failerd to create Harmony Memory\n{e}"
-
-        while True:  # main Loop
+            return f"Failed to create Harmony Memory\n{e}"
+        ########################################### Main Loop
+        while True:
             self.HMHistory.append(self.HM.copy())
             try:
                 best, worst = self.best_worst
@@ -66,8 +62,8 @@ class HM:
                 return f"Failed to evaluate worst and best Harmony in iteration no# {self.iter}\n{e}"
             self.valHistory.append(self.HM[best][-1])  # value
             if self.varDim == 2:
-                self.bestHistoryx1.append(self.HM[best][0])
-                self.bestHistoryx2.append(self.HM[best][1])
+                self.bestHistoryx[0].append(self.HM[best][0])
+                self.bestHistoryx[1].append(self.HM[best][1])
             if self.iter >= self.maxIter:
                 break
             try:
@@ -76,19 +72,24 @@ class HM:
                 return f"Failed to execute iteration no# {self.iter}\n{e}"
             if new[-1] < self.HM[worst][-1]:
                 self.HM[worst] = new
+        ########################################### Main Loop End
+        ########################################### Harmony Search End
+
+
         response = f"Harmony Search Stop: Iterations:{self.iter} \nBest solution: {self.HM[best][:-1]} \nValue: {self.HM[best][-1]}"
-        try:
+        if True:
             if self.draw:
                 self.plotHistory()
                 if self.varDim == 2:
                     self.plotLayers()
+        """
         except Exception as e:
-            response += f"\nFailed to plot\n{e}"
-        print(response)
-
+            response += f"\nFailed to plot\n{e}" 
+        """
         for i in range(len(self.valHistory)):
             response += "\n############################################"
-            response += f"\nIteration {i}:\nBest point: [{self.bestHistoryx1[i]},{self.bestHistoryx2[i]}] \nf. value: {self.valHistory[i]}"
+            response += f"\nIteration {i}:\nBest point: [{self.bestHistoryx[0][i]},{self.bestHistoryx[1][i]}] \nf. value: {self.valHistory[i]}"
+        self.clear = False
         return response
 
     @property
@@ -132,7 +133,6 @@ class HM:
                     0])  # initiate N "players" for single Harmony
             H.append(f(self.fun, H))
             HM.append(H)  # add Harmony to Harmony Memory
-
         return HM  # save Harmony Memory
 
     def plotHistory(self):  # draw a plot, where OX is iteration and OY is TolX value
@@ -141,12 +141,8 @@ class HM:
         plt.xlabel("Iteration")
         plt.show()
 
-    def plotLayers(self):
-        draw_contour(cube=self.cube,
-                     varDim=self.varDim,
-                     fun=self.fun,
-                     layers=50,
-                     self=self, HM=True, his=True)
+    def plotLayers(self): # draw function layers
+        draw_contour(self)
 
 def inRange(a, b, c):
     return min(c, max(a, b))
