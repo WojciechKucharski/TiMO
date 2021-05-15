@@ -1,2 +1,4 @@
 # TiMO
-Teoria i Metody Optymalizacji
+Theory and Methods of Optimization
+
+
