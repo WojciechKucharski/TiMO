@@ -3,7 +3,7 @@
 block_cipher = None
 
 
-a = Analysis(['C:\\Users\\wojte\\Desktop\\Python\\TiMO\\projectfiles\\main.py'],
+a = Analysis(['..\\projectfiles\\main.py'],
              pathex=['C:\\Users\\wojte\\Desktop\\Python\\TiMO\\dist'],
              binaries=[],
              datas=[],
