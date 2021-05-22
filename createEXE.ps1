@@ -1,1 +1,4 @@
-cd dist && pyinstaller --onefile -w ..\projectfiles\main.py
+cd dist
+if ($?) {
+    pyinstaller --onefile -w ..\projectfiles\main.py
+}
