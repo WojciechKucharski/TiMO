@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button, RadioButtons
 from typing import List, Tuple
 
-def draw_contour(self, layers: int = 200):
 
+def draw_contour(self, layers: int = 25):
     if self.varDim != 2:
         print("Can't draw layers")
         return 0
@@ -32,15 +32,19 @@ def draw_contour(self, layers: int = 200):
     sfreq = Slider(axfreq, 'Iteracja', 1, self.maxIter, valinit=self.maxIter, valstep=1)
     tmp1, tmp2 = vec(self.HMHistory[-1])
     H, = ax.plot(tmp1, tmp2, 'ro')
+    G, = ax.plot(self.bestHistoryx[0][-1], self.bestHistoryx[1][-1], 'ro', color='green')
 
     def update(val):
         x = sfreq.val
         x1, x2 = vec(self.HMHistory[x])
         H.set_ydata(x2)
         H.set_xdata(x1)
+        G.set_ydata(self.bestHistoryx[1][x])
+        G.set_xdata(self.bestHistoryx[1][x])
 
     sfreq.on_changed(update)
     plt.show()
+
 
 def vec(HMHis):
     x1 = []
@@ -49,4 +53,3 @@ def vec(HMHis):
         x1.append(x[0])
         x2.append(x[1])
     return x1, x2
-

@@ -33,7 +33,7 @@ class Ui_MainWindow(object):
         setupGUI(self, MainWindow)
 
         ########################################### Cube Updating Thread
-        start_new_thread(update, (self, ))
+        start_new_thread(update, (self,))
 
     ########################################### Update Cube Buttons
     def updateAll(self):
@@ -42,11 +42,11 @@ class Ui_MainWindow(object):
             for i in range(3):
                 for j in range(5):
                     self.cube_obj[i][j].setVisible(j < N)
-        for i in range(5): # update number of Spin Boxes
+        for i in range(5):  # update number of Spin Boxes
             self.cube_obj[0][i].setMaximum(self.cube_obj[2][i].value())
             self.cube_obj[2][i].setMinimum(self.cube_obj[0][i].value())
 
-    def hookfunctions(self): # update limits in Spin Boxes
+    def hookfunctions(self):  # update limits in Spin Boxes
         self.push_obj[0].clicked.connect(self.clicked)
         self.push_obj[1].clicked.connect(self.draw_plots)
         for i, x in enumerate(self.functions_obj):
@@ -55,7 +55,7 @@ class Ui_MainWindow(object):
     ########################################### Get All Parameters from GUI
     def getValues(self):
         args = []
-        args.append(self.text_in.toPlainText()) #fun
+        args.append(self.text_in.toPlainText())  # fun
         for x in self.parameters_obj:
             args.append(x.value())
         args.append(self.checkBox.isChecked())
@@ -77,8 +77,8 @@ class Ui_MainWindow(object):
     ########################################### Run Harmony Search - Button
     def clicked(self):
         args = self.getValues()
-        x = self.HM.HarmonySearch(fun=args[0], HMCR = args[1], PAR = args[2], HMSize = args[4],
-                            maxIter = args[5], BW = args[3], draw = args[6], cube = args[7])
+        x = self.HM.HarmonySearch(fun=args[0], HMCR=args[1], PAR=args[2], HMSize=args[4],
+                                  maxIter=args[5], BW=args[3], draw=args[6], cube=args[7])
         self.text_out.setPlainText(x)
 
 
@@ -95,6 +95,7 @@ def update(self):
     except Exception as e:
         print(e)
 
+
 ########################################### Get FUN Dimension
 def getDim(fun):
     varDim = None
@@ -106,6 +107,7 @@ def getDim(fun):
     except Exception as e:
         return None
 
+
 ########################################### MAIN
 if __name__ == "__main__":
     try:
@@ -114,6 +116,6 @@ if __name__ == "__main__":
         ui = Ui_MainWindow(MainWindow)
         MainWindow.show()
         sys.exit(app.exec_())
-    except Exception as e: #error LOG
+    except Exception as e:  # error LOG
         printError(e)
 ###########################################
