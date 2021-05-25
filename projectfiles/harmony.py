@@ -54,6 +54,8 @@ class HM:
             self.HM = self.HMCreate()  # initiate Harmony Memory
         except Exception as e:
             return f"Failed to create Harmony Memory\n{e}"
+
+
         ########################################### Main Loop
         while True:
             self.HMHistory.append(self.HM.copy())
@@ -84,10 +86,7 @@ class HM:
                 self.plotHistory()
                 if self.varDim == 2:
                     self.plotLayers()
-        """
-        except Exception as e:
-            response += f"\nFailed to plot\n{e}" 
-        """
+
         for i in range(len(self.valHistory)):
             response += "\n############################################"
             response += f"\nIteration {i}:\nBest point: {self.bestHistoryX[i][:-1]} \nf. value: {self.bestHistoryX[best][-1]}"
@@ -139,6 +138,7 @@ class HM:
         return HM  # save Harmony Memory
 
     def plotHistory(self):  # draw a plot, where OX is iteration and OY is TolX value
+        plt.close('all')
         plt.plot(self.valHistory)
         plt.ylabel("fval")
         plt.xlabel("Iteration")

@@ -39,7 +39,7 @@ def draw_contour(self, layers: int = 25):
         x1, x2 = vec(self.HMHistory[x])
         H.set_ydata(x2)
         H.set_xdata(x1)
-        G.set_ydata(self.bestHistoryx[1][x])
+        G.set_ydata(self.bestHistoryx[0][x])
         G.set_xdata(self.bestHistoryx[1][x])
 
     sfreq.on_changed(update)
