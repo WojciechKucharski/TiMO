@@ -1,9 +1,7 @@
 from my_parser import f
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.widgets import Slider, Button, RadioButtons
-from typing import List, Tuple
-
+from matplotlib.widgets import Slider
 
 def draw_contour(self, layers: int = 25):
     if self.varDim != 2:
@@ -23,7 +21,7 @@ def draw_contour(self, layers: int = 25):
 
     cp = ax.contourf(X, Y, Z, layers)  # draw layers
     fig.colorbar(cp)
-    #ax.plot(self.bestHistoryx[0], self.bestHistoryx[1])
+    # ax.plot(self.bestHistoryx[0], self.bestHistoryx[1])
 
     plt.ylabel("x2")
     plt.xlabel("x1")
@@ -48,7 +46,7 @@ def draw_contour(self, layers: int = 25):
 
 
 def vec(HMHis):
-    #HMHis = sorted(HMHis, key=lambda tup: tup[2])
+    # HMHis = sorted(HMHis, key=lambda tup: tup[2])
     x1 = []
     x2 = []
     x3 = []
