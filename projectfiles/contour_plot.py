@@ -23,7 +23,7 @@ def draw_contour(self, layers: int = 25):
 
     cp = ax.contourf(X, Y, Z, layers)  # draw layers
     fig.colorbar(cp)
-    ax.plot(self.bestHistoryx[0], self.bestHistoryx[1])
+    #ax.plot(self.bestHistoryx[0], self.bestHistoryx[1])
 
     plt.ylabel("x2")
     plt.xlabel("x1")

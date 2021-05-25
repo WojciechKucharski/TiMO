@@ -16,14 +16,14 @@ class HM:
             PAR: float = 0.9,
             BW: float = 0.1,
             HMSize: int = 10,
-            draw: bool = True):  # Harmony Search - passing param.
+            drawPlots: bool = True):  # Harmony Search - passing param.
 
         ########################################### User Given Variables
         self.maxIter = inRange(1, maxIter, 10 ** 6)
         self.HMCR = inRange(0.0, HMCR, 1.0)
         self.PAR = inRange(0.0, PAR, 1.0)
         self.HMSize = inRange(1, HMSize, 10 ** 3)
-        self.BW, self.fun, self.cube, self.draw = BW, fun, cube, draw
+        self.BW, self.fun, self.cube, self.draw = BW, fun, cube, drawPlots
         ########################################### Alg. Start Values
         self.HMHistory, self.valHistory = [], []
         self.bestHistoryx = [[], []]
@@ -38,7 +38,7 @@ class HM:
         except Exception as e:
             return f"Failed to evaluate function dimension\n{e}"
         ########################################### Sanity Check
-        if self.varDim < 2:  # checking function dimensions
+        if self.varDim < 1:  # checking function dimensions
             return "Function dimension too small"
         if self.varDim == 0:
             return "Function is invalid"

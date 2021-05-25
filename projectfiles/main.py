@@ -78,7 +78,7 @@ class Ui_MainWindow(object):
     def clicked(self):
         args = self.getValues()
         x = self.HM.HarmonySearch(fun=args[0], HMCR=args[1], PAR=args[2], HMSize=args[4],
-                                  maxIter=args[5], BW=args[3], draw=args[6], cube=args[7])
+                                  maxIter=args[5], BW=args[3], drawPlots=args[6], cube=args[7])
         self.text_out.setPlainText(x)
 
 
