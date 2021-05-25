@@ -53,7 +53,7 @@ class HM:
         try:
             self.HM = self.HMCreate()  # initiate Harmony Memory
         except Exception as e:
-            return f"Failed to create Harmony Memory\n{e}"
+            return f"Nie udało się stworzyć pierwszej Harmonii\n{e}"
 
 
         ########################################### Main Loop
@@ -62,7 +62,7 @@ class HM:
             try:
                 best, worst = self.best_worst
             except Exception as e:
-                return f"Failed to evaluate worst and best Harmony in iteration no# {self.iter}\n{e}"
+                return f"Nie udało się wyznaczyć najlepszej Harmonii# {self.iter}\n{e}"
             self.valHistory.append(self.HM[best][-1])  # value
             if self.varDim == 2:
                 self.bestHistoryx[0].append(self.HM[best][0])
@@ -73,14 +73,14 @@ class HM:
             try:
                 new = self.iteration()
             except Exception as e:
-                return f"Failed to execute iteration no# {self.iter}\n{e}"
+                return f"Nie udało się wykonać iteracji jumer# {self.iter}\n{e}"
             if new[-1] < self.HM[worst][-1]:
                 self.HM[worst] = new
         ########################################### Main Loop End
         ########################################### Harmony Search End
 
 
-        response = f"Harmony Search Stop: Iterations:{self.iter} \nBest solution: {self.HM[best][:-1]} \nValue: {self.HM[best][-1]}"
+        response = f"Harmony Search: Iteracje: {self.iter} \nRozwiązanie optymalne x: {self.HM[best][:-1]} \nWartość funkcji f(x): {self.HM[best][-1]}"
         if True:
             if self.draw:
                 self.plotHistory()
@@ -89,7 +89,7 @@ class HM:
 
         for i in range(len(self.valHistory)):
             response += "\n############################################"
-            response += f"\nIteration {i}:\nBest point: {self.bestHistoryX[i][:-1]} \nf. value: {self.bestHistoryX[best][-1]}"
+            response += f"\nIteracja {i}:\nx: {self.bestHistoryX[i][:-1]} \nf(x): {self.bestHistoryX[best][-1]}"
 
         self.clear = False
         return response

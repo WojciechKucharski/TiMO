@@ -38,6 +38,7 @@ class Ui_MainWindow(object):
     ########################################### Update Cube Buttons
     def updateAll(self):
         N = getDim(self.text_in.toPlainText())
+
         if N != None:
             for i in range(3):
                 for j in range(5):
@@ -76,6 +77,10 @@ class Ui_MainWindow(object):
 
     ########################################### Run Harmony Search - Button
     def clicked(self):
+        if getDim(self.text_in.toPlainText()) in [1,2,3,4,5]:
+            pass
+        else:
+            return 0
         args = self.getValues()
         x = self.HM.HarmonySearch(fun=args[0], HMCR=args[1], PAR=args[2], HMSize=args[4],
                                   maxIter=args[5], BW=args[3], drawPlots=args[6], cube=args[7])
