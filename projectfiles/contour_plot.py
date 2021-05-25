@@ -39,17 +39,21 @@ def draw_contour(self, layers: int = 25):
         x1, x2 = vec(self.HMHistory[x])
         H.set_ydata(x2)
         H.set_xdata(x1)
-        G.set_ydata(self.bestHistoryx[0][x])
-        G.set_xdata(self.bestHistoryx[1][x])
+
+        G.set_ydata(self.bestHistoryx[1][x])
+        G.set_xdata(self.bestHistoryx[0][x])
 
     sfreq.on_changed(update)
     plt.show()
 
 
 def vec(HMHis):
+    #HMHis = sorted(HMHis, key=lambda tup: tup[2])
     x1 = []
     x2 = []
+    x3 = []
     for x in HMHis:
         x1.append(x[0])
         x2.append(x[1])
+        x3.append(x[2])
     return x1, x2
