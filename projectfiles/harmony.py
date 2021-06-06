@@ -36,12 +36,10 @@ class HM:
                 if f"x{i}" in self.fun:
                     self.varDim = i
         except Exception as e:
-            return f"Failed to evaluate function dimension\n{e}"
+            return f"Nie udało się wyznaczyć wymiaru funkcji\n{e}"
         ########################################### Sanity Check
-        if self.varDim < 1:  # checking function dimensions
-            return "Function dimension too small"
-        if self.varDim == 0:
-            return "Function is invalid"
+        if self.varDim not in [1,2,3,4,5]:  # checking function dimensions
+            return "Wymiar funkcji jest błędny"
 
         if len(self.cube) < self.varDim:  # checking cube sizes
             return "Cube is to small, function has more arguments"

@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider
 
-def draw_contour(self, layers: int = 25):
+def draw_contour(self, layers: int = 35):
     if self.varDim != 2:
         print("Can't draw layers")
         return 0
@@ -14,7 +14,7 @@ def draw_contour(self, layers: int = 25):
     Z = np.zeros((len(xlist), len(ylist)))
     for i in range(len(xlist)):
         for j in range(len(ylist)):
-            Z[i, j] = f(self.fun, [ylist[j], xlist[i]])
+            Z[i, j] = f(self.fun, [xlist[j], ylist[i]])
 
     fig, ax = plt.subplots()
     plt.subplots_adjust(left=0.25, bottom=0.25)
